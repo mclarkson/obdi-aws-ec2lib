@@ -96,13 +96,13 @@ func (t *Plugin) GetRequest(args *Args, response *[]byte) error {
 
 	// GET requests don't change state, so, don't change state
 
-	regions_json := json.Marshal(aws.Regions)
+	regions_json, err := json.Marshal(aws.Regions)
 	if err != nil {
 		ReturnError("Marshal error: "+err.Error(), response)
 		return nil
 	}
 
-	reply := Reply{0, regions_json, SUCCESS, ""}
+	reply := Reply{0, string(regions_json), SUCCESS, ""}
 	jsondata, err := json.Marshal(reply)
 	if err != nil {
 		ReturnError("Marshal error: "+err.Error(), response)
