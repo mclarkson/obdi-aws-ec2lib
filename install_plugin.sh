@@ -31,7 +31,7 @@ ipport="127.0.0.1:443"
 # Create a temporary file and a trap to delete it
 #
 
-t="/tmp/install_aws-p2ec2_$$"
+t="/tmp/install_aws-ec2lib_$$"
 touch $t
 [[ $? -ne 0 ]] && {
     echo "Could not create temporary file. Aborting."
@@ -45,33 +45,34 @@ trap "rm -f -- '$t'" EXIT
 #
 
 curl -k -d '{
-    "Code":"HAS_AWS_P2EC2",
-    "Desc":"Has Physical files to EC2 plugin (AWS-P2EC2).",
+    "Code":"HAS_AWS_EC2LIB",
+    "Desc":"AWS EC2 library is available.",
     "IsWorkerDef":false
+    "IsJsonObjectDef":false
 }' $proto://$ipport/api/admin/$guid/envcaps
 
 #
 # Create environment capabilities for AWS credentials
 #
 
-curl -k -d '{
-    "Code":"AWS_ACCESS_KEY_ID_1",
-    "Desc":"AWS credential. For example: ALIBJX4KM6OPZEEW6B2Q",
-    "IsJsonObjectDef":true
-}' $proto://$ipport/api/admin/$guid/envcaps
-
-curl -k -d '{
-    "Code":"AWS_SECRET_ACCESS_KEY_1",
-    "Desc":"AWS credential. For example: MY-SECRET-KEY.",
-    "IsJsonObjectDef":true
-}' $proto://$ipport/api/admin/$guid/envcaps
+#curl -k -d '{
+#    "Code":"AWS_ACCESS_KEY_ID_1",
+#    "Desc":"AWS credential. For example: ALIBJX4KM6OPZEEW6B2Q",
+#    "IsJsonObjectDef":true
+#}' $proto://$ipport/api/admin/$guid/envcaps
+#
+#curl -k -d '{
+#    "Code":"AWS_SECRET_ACCESS_KEY_1",
+#    "Desc":"AWS credential. For example: MY-SECRET-KEY.",
+#    "IsJsonObjectDef":true
+#}' $proto://$ipport/api/admin/$guid/envcaps
 
 #
 # Create the plugin entry in obdi, but it's not shown in the sidebar.
 #
 
 curl -k -d '{
-    "Name":"aws-p2ec2",
+    "Name":"aws-ec2lib",
     "Desc":"AWS Physical to EC2 plugin.",
     "HasView":0,
     "Parent":""
@@ -86,13 +87,13 @@ id=`grep Id $t | grep -Eo "[0-9]+"`
 # These need to be loaded when the application starts
 #
 
-curl -k -d '{
-    "Name":"aws-p2ec2.js",
-    "Desc":"Controller for AWS-P2EC2.",
-    "Type":1,
-    "PluginId":'"$id"',
-    "Url":"aws-p2ec2/js/controllers/aws-p2ec2.js"
-}' $proto://$ipport/api/admin/$guid/files
+#curl -k -d '{
+#    "Name":"aws-ec2lib.js",
+#    "Desc":"Controller for AWS-EC2LIB.",
+#    "Type":1,
+#    "PluginId":'"$id"',
+#    "Url":"aws-ec2lib/js/controllers/aws-ec2lib.js"
+#}' $proto://$ipport/api/admin/$guid/files
 
 #
 # Add the scripts, removing comment lines (#) and empty lines
