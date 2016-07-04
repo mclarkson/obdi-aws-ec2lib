@@ -47,7 +47,7 @@ trap "rm -f -- '$t'" EXIT
 curl -k -d '{
     "Code":"HAS_AWS_EC2LIB",
     "Desc":"AWS EC2 library is available.",
-    "IsWorkerDef":false
+    "IsWorkerDef":false,
     "IsJsonObjectDef":false
 }' $proto://$ipport/api/admin/$guid/envcaps
 
