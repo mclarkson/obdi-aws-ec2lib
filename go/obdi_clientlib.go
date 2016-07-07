@@ -10,7 +10,7 @@ import (
 	"io/ioutil"
 	"log"
 	"log/syslog"
-	"net"
+    "net"
 	"net/http"
 	"strconv"
 	"strings"
@@ -49,6 +49,14 @@ type Job struct {
 	Type          int64  // 1 - user job, 2 - system job
 }
 
+type EnvCap struct {                                                                                      
+    Id              int64
+    Code            string                                                                                
+    Desc            string
+    IsWorkerDef     bool // Can it have a worker definition                                               
+    IsJsonObjectDef bool // Can it have a json object definition                                          
+}   
+
 // For retrieving details from the Manager
 type Env struct {
 	Id       int64
@@ -78,12 +86,20 @@ type Script struct {
 	DeletedAt time.Time
 }
 
+type JsonObject struct {
+    Id       int64 
+    EnvId    int64
+    EnvCapId int64
+    Json     string
+}
+
 // Args are send over RPC from the Manager
 type Args struct {
 	PathParams  map[string]string
 	QueryString map[string][]string
 	PostData    []byte
 	QueryType   string
+	SDToken     string
 }
 
 type Plugin struct{}
@@ -232,6 +248,69 @@ func POST(jsondata []byte, url, endpoint string) (r *http.Response, e error) {
 	return resp, nil
 }
 
+func PUT(jsondata []byte, url, endpoint string) (r *http.Response,
+	e error) {
+
+	buf := bytes.NewBuffer(jsondata)
+
+	// accept bad certs
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+	}
+	client := &http.Client{Transport: tr}
+
+	resp := &http.Response{}
+
+	for strings.HasSuffix(url, "/") {
+		url = strings.TrimSuffix(url, "/")
+	}
+	req, err := http.NewRequest("PUT", url+"/"+endpoint, buf)
+	if err != nil {
+		txt := fmt.Sprintf("Could not send REST request ('%s').", err.Error())
+		return resp, ApiError{txt}
+	}
+
+	req.Header.Add("Content-Type", `application/json`)
+
+	req.Close = true
+	resp, err = client.Do(req)
+
+	return resp, nil
+}
+
+func DELETE(jsondata []byte, url, endpoint string) (r *http.Response,
+	e error) {
+
+	buf := bytes.NewBuffer(jsondata)
+
+	// accept bad certs
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+	}
+	client := &http.Client{Transport: tr}
+
+	resp := &http.Response{}
+
+	for strings.HasSuffix(url, "/") {
+		url = strings.TrimSuffix(url, "/")
+	}
+	req, err := http.NewRequest("DELETE",
+		url+"/api/"+endpoint, buf)
+	if err != nil {
+		txt := fmt.Sprintf("Could not send REST request ('%s').", err.Error())
+		return resp, ApiError{txt}
+	}
+
+	req.Header.Add("Content-Type", `application/json`)
+
+	resp, err = client.Do(req)
+
+	return resp, nil
+}
+
+/*
+ * Returns an Env object if the user is allowed to access it
+ */
 func (t *Plugin) GetAllowedEnv(args *Args, env_id_str string, response *[]byte) (Env, error) {
 
 	// Get the Env (SysName) for this env_id using REST.
