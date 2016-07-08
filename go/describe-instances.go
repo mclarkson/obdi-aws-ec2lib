@@ -88,6 +88,12 @@ func (t *Plugin) GetRequest(args *Args, response *[]byte) error {
 
 	env_id_str := args.QueryString["env_id"][0]
 
+	// region is optional, '?region=xxx'
+
+	if len(args.QueryString["region"]) > 0 {
+		region = args.QueryString["region"][0]
+	}
+
 	r, ok := aws.Regions[region]
 	if !ok {
 		t := "Unknown region: " + region
