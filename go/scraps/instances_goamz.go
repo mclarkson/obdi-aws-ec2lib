@@ -18,8 +18,7 @@ func instances(e *ec2.EC2, args ...string) {
 	for _, v := range args {
 		sl := strings.SplitN(v, "=", 2)
 		if len(sl) != 2 {
-			fmt.Fprintf(os.Stderr, "instances: bad key=value pair \"%s\",
-			skipping\n", v)
+			fmt.Fprintf(os.Stderr, "instances: bad key=value pair \"%s\", skipping\n", v)
 			continue
 		}
 		filter.Add(sl[0], sl[1])
@@ -35,7 +34,7 @@ func instances(e *ec2.EC2, args ...string) {
 		fmt.Println("reservation:", r.ReservationId)
 		for _, i := range r.Instances {
 			fmt.Printf("%s\t%s\t%s\t%s\t%s\t%s\n", i.InstanceId, i.State.Name,
-			i.PrivateIPAddress, i.IPAddress, i.Tags[0], i.DNSName, i.ImageId)
+				i.PrivateIPAddress, i.IPAddress, i.Tags[0], i.DNSName, i.ImageId)
 			//fmt.Printf("%#v\n", i)
 		}
 	}
