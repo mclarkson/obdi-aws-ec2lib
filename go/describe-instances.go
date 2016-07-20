@@ -104,6 +104,13 @@ func (t *Plugin) GetRequest(args *Args, response *[]byte) error {
 		return nil
 	}
 
+	// filter is optional, '?filter=xxx'
+
+	var filters []string
+	for _,j := range args.QueryString["filter"] {
+		filters = append( filters, j )
+	}
+
 	// Get aws_access_key_id and aws_secret_access_key from
 	// the AWS_ACCESS_KEY_ID_1 capability using sdtoken
 
@@ -162,7 +169,9 @@ func (t *Plugin) GetRequest(args *Args, response *[]byte) error {
 
 	e := ec2.New(auth, r)
 
-	instances_json, err := instances(e, response, awsdata.Aws_filter)
+	filters = append( filters, awsdata.Aws_filter )
+
+	instances_json, err := instances(e, response, filters...)
 	if err != nil {
 		return nil
 	}
