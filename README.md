@@ -19,7 +19,9 @@ Library of AWS functions to be called via REST.
 
 # Dev
 
-**describe-instances**
+## REST End Points
+
+### describe-instances
 
 ```
 # Log in
@@ -51,7 +53,7 @@ The filter name instance-id was used above. A list of all filter names are at:
 
   https://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#DescribeInstancesInput
 
-**describe-regions**
+### describe-regions
 
 ```
 # Log in
