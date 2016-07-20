@@ -56,6 +56,9 @@ func (gormInst *GormDB) InitDB(dbname string) error {
 func instances(e *ec2.EC2, response *[]byte, args ...string) ([]ec2.Reservation, error) {
 	filter := ec2.NewFilter()
 	for _, v := range args {
+                if len(v) == 0 {
+			break
+		}
 		sl := strings.SplitN(v, "=", 2)
 		if len(sl) != 2 {
 			t := "Bad key=value pair: " + v
