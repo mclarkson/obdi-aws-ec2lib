@@ -106,8 +106,8 @@ func (t *Plugin) GetRequest(args *Args, response *[]byte) error {
 
 	envcaps := []EnvCap{}
 	{
-		resp, _ := GET("https://127.0.0.1/api/" + args.PathParams["login"] +
-			"/" + args.PathParams["GUID"], "/envcaps?code=AWS_ACCESS_KEY_ID_1")
+		resp, _ := GET("https://127.0.0.1/api/"+args.PathParams["login"]+
+			"/"+args.PathParams["GUID"], "/envcaps?code=AWS_ACCESS_KEY_ID_1")
 		if b, err := ioutil.ReadAll(resp.Body); err != nil {
 			txt := fmt.Sprintf("Error reading Body ('%s').", err.Error())
 			ReturnError(txt, response)
@@ -120,8 +120,8 @@ func (t *Plugin) GetRequest(args *Args, response *[]byte) error {
 	json_objects := []JsonObject{}
 	{
 		env_cap_id_str := strconv.FormatInt(envcaps[0].Id, 10)
-		resp, _ := GET("https://127.0.0.1/api/sduser/" + args.SDToken,
-			"/jsonobjects?env_id=" + env_id_str + "&env_cap_id=" + env_cap_id_str)
+		resp, _ := GET("https://127.0.0.1/api/sduser/"+args.SDToken,
+			"/jsonobjects?env_id="+env_id_str+"&env_cap_id="+env_cap_id_str)
 		if b, err := ioutil.ReadAll(resp.Body); err != nil {
 			txt := fmt.Sprintf("Error reading Body ('%s').", err.Error())
 			ReturnError(txt, response)
@@ -132,8 +132,13 @@ func (t *Plugin) GetRequest(args *Args, response *[]byte) error {
 	}
 
 	type AWSData struct {
-		Aws_access_key_id string
-		Aws_secret_access_key string
+		Aws_access_key_id           string // E.g. OKLAJX2KN6OXZEFV4B1Q
+		Aws_secret_access_key       string // E.g. oiwjeg^laGDIUsg@jfa
+		Aws_abdi_worker_instance_id string // E.g. i-e19ec362
+		Aws_obdi_worker_region      string // E.g. us-east-1
+		Aws_obdi_worker_url         string // E.g. https://1.2.3.4:4443/
+		Aws_obdi_worker_key         string // E.g. secretkey
+		Aws_filter                  string // E.g. key-name=itsupkey
 	}
 
 	awsdata := AWSData{}
@@ -143,8 +148,8 @@ func (t *Plugin) GetRequest(args *Args, response *[]byte) error {
 		return nil
 	}
 
-	auth, err := aws.GetAuth( awsdata.Aws_access_key_id, awsdata.Aws_secret_access_key,
-	"",time.Time{})
+	auth, err := aws.GetAuth(awsdata.Aws_access_key_id, awsdata.Aws_secret_access_key,
+		"", time.Time{})
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "can not find auth info: %s\n", err)
 		t := "can not find auth info: " + err.Error()
@@ -154,7 +159,7 @@ func (t *Plugin) GetRequest(args *Args, response *[]byte) error {
 
 	e := ec2.New(auth, r)
 
-	instances_json, err := instances(e, response)
+	instances_json, err := instances(e, response, awsdata.Aws_filter)
 	if err != nil {
 		return nil
 	}
