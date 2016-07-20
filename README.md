@@ -51,3 +51,20 @@ The filter name instance-id was used above. A list of all filter names are at:
 
   https://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#DescribeInstancesInput
 
+**describe-regions**
+
+```
+# Log in
+
+$ ipport="127.0.0.1:443"
+
+$ guid=`curl -ks -d '{"Login":"nomen.nescio","Password":"password"}' \
+  https://$ipport/api/login | grep -o "[a-z0-9][^\"]*"`
+
+# Show all available regions. There are no other options.
+# This does not call out to AWS, it uses the goamz library.
+
+$ curl -k https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-regions
+
+```
+
