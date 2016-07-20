@@ -47,3 +47,7 @@ $ curl -k "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-instances?
 
 ```
 
+The filter name instance-id was used above. A list of all filter names are at:
+
+  https://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#DescribeInstancesInput
+
