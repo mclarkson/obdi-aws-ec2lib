@@ -9,6 +9,9 @@ Library of AWS functions to be called via REST.
 
 # What is it?
 
+A collection of REST end points that communicate with the AWS API. It is used
+by other plugins.
+
 # Installation
 
 ## Installing the plugin
