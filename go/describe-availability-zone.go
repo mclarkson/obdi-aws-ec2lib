@@ -18,17 +18,21 @@ package main
 
 import (
 	"encoding/json"
-	"errors"
+	//"errors"
 	"fmt"
-	"github.com/goamz/goamz/aws"
-	"github.com/goamz/goamz/ec2"
+	//"github.com/goamz/goamz/aws"
+	//"github.com/goamz/goamz/ec2"
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/credentials"
+	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go/service/ec2"
 	"io/ioutil"
 	"net"
 	"net/rpc"
 	"os"
 	"strconv"
-	"strings"
-	"time"
+	//"strings"
+	//"time"
 )
 
 var region = "us-east-1"
@@ -53,31 +57,6 @@ func (gormInst *GormDB) InitDB(dbname string) error {
 	return nil
 }
 
-func instances(e *ec2.EC2, response *[]byte, args ...string) ([]ec2.Reservation, error) {
-	filter := ec2.NewFilter()
-	for _, v := range args {
-		if len(v) == 0 {
-			break
-		}
-		sl := strings.SplitN(v, "=", 2)
-		if len(sl) != 2 {
-			t := "Bad key=value pair: " + v
-			ReturnError(t, response)
-			return nil, errors.New("")
-		}
-		filter.Add(sl[0], sl[1])
-	}
-
-	resp, err := e.DescribeInstances(nil, filter)
-	if err != nil {
-		t := "instances: " + err.Error()
-		ReturnError(t, response)
-		return nil, errors.New("")
-	}
-
-	return resp.Reservations, nil
-}
-
 func (t *Plugin) GetRequest(args *Args, response *[]byte) error {
 
 	// GET requests don't change state, so, don't change state
@@ -91,25 +70,23 @@ func (t *Plugin) GetRequest(args *Args, response *[]byte) error {
 
 	env_id_str := args.QueryString["env_id"][0]
 
-	// region is optional, '?region=xxx'
+	// region is required, '?region=xxx'
 
-	if len(args.QueryString["region"]) > 0 {
-		region = args.QueryString["region"][0]
-	}
-
-	r, ok := aws.Regions[region]
-	if !ok {
-		t := "Unknown region: " + region
-		ReturnError(t, response)
+	if len(args.QueryString["region"]) == 0 {
+		ReturnError("'region' must be set", response)
 		return nil
 	}
 
-	// filter is optional, '?filter=xxx'
+	region := args.QueryString["region"][0]
 
-	var filters []string
-	for _, j := range args.QueryString["filter"] {
-		filters = append(filters, j)
+	// region is required, '?region=xxx'
+
+	if len(args.QueryString["availability_zone"]) == 0 {
+		ReturnError("'availability_zone' must be set", response)
+		return nil
 	}
+
+	availzone := args.QueryString["availability_zone"][0]
 
 	// Get aws_access_key_id and aws_secret_access_key from
 	// the AWS_ACCESS_KEY_ID_1 capability using sdtoken
@@ -158,25 +135,30 @@ func (t *Plugin) GetRequest(args *Args, response *[]byte) error {
 		return nil
 	}
 
-	auth, err := aws.GetAuth(awsdata.Aws_access_key_id, awsdata.Aws_secret_access_key,
-		"", time.Time{})
+	creds := credentials.NewStaticCredentials(
+		awsdata.Aws_access_key_id,
+		awsdata.Aws_secret_access_key,
+		"")
+	config := aws.Config{
+		Region:      aws.String(region),
+		Credentials: creds,
+	}
+
+	svc := ec2.New(session.New(), &config)
+
+	params := &ec2.DescribeAvailabilityZonesInput{
+		ZoneNames: []*string{&availzone},
+	}
+
+	resp, err := svc.DescribeAvailabilityZones(params)
+
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "can not find auth info: %s\n", err)
-		t := "can not find auth info: " + err.Error()
+		t := "Error running DescribeAvailabilityZones: " + err.Error()
 		ReturnError(t, response)
 		return nil
 	}
 
-	e := ec2.New(auth, r)
-
-	filters = append(filters, awsdata.Aws_filter)
-
-	instances_json, err := instances(e, response, filters...)
-	if err != nil {
-		return nil
-	}
-
-	jsondata, err := json.Marshal(instances_json)
+	jsondata, err := json.Marshal(resp)
 	if err != nil {
 		ReturnError("Marshal error: "+err.Error(), response)
 		return nil

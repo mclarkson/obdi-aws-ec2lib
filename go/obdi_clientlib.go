@@ -10,7 +10,7 @@ import (
 	"io/ioutil"
 	"log"
 	"log/syslog"
-    "net"
+	"net"
 	"net/http"
 	"strconv"
 	"strings"
@@ -49,13 +49,13 @@ type Job struct {
 	Type          int64  // 1 - user job, 2 - system job
 }
 
-type EnvCap struct {                                                                                      
-    Id              int64
-    Code            string                                                                                
-    Desc            string
-    IsWorkerDef     bool // Can it have a worker definition                                               
-    IsJsonObjectDef bool // Can it have a json object definition                                          
-}   
+type EnvCap struct {
+	Id              int64
+	Code            string
+	Desc            string
+	IsWorkerDef     bool // Can it have a worker definition
+	IsJsonObjectDef bool // Can it have a json object definition
+}
 
 // For retrieving details from the Manager
 type Env struct {
@@ -87,10 +87,10 @@ type Script struct {
 }
 
 type JsonObject struct {
-    Id       int64 
-    EnvId    int64
-    EnvCapId int64
-    Json     string
+	Id       int64
+	EnvId    int64
+	EnvCapId int64
+	Json     string
 }
 
 // Args are send over RPC from the Manager
