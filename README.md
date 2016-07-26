@@ -50,7 +50,7 @@ $ guid=`curl -ks -d '{"Login":"nomen.nescio","Password":"password"}' \
 # Create a 30GB gp2 volume in availability zone us-west-2a
 
 $ curl -k -d '{"Device":"/dev/sdb","InstanceId":"i-xxxxxx","VolumeId":"vol-xxxxx"}' \
-  "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/attach-volume?env_id=1&region=us-west-2&availability_zone=us-west-2a"
+  "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/attach-volume?env_id=1&region=us-west-2"
 
 ```
 
@@ -152,6 +152,34 @@ $ guid=`curl -ks -d '{"Login":"nomen.nescio","Password":"password"}' \
 # This does not call out to AWS, it uses the goamz library.
 
 $ curl -k https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-regions
+
+```
+
+### describe-volume-status
+
+Get the status of an EBS volume.
+
+http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.DescribeVolumeStatus
+
+```
+POST data parameters for curl's '-d' option:
+
+    Device     string
+    VolumeIds  list of strings
+```
+
+```
+# Log in
+
+$ ipport="127.0.0.1:443"
+
+$ guid=`curl -ks -d '{"Login":"nomen.nescio","Password":"password"}' \
+  https://$ipport/api/login | grep -o "[a-z0-9][^\"]*"`
+
+# Create a 30GB gp2 volume in availability zone us-west-2a
+
+$ curl -k -X GET -d '{"VolumeIds":["vol-010101"]}' \
+  "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-volume-status?env_id=1&region=us-east-1"
 
 ```
 

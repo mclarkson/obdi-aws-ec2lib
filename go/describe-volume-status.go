@@ -34,10 +34,8 @@ var region = "us-east-1"
 
 // The format of the json sent by the client in a POST request
 type PostedData struct {
-	Device     string
-	DryRun     bool
-	InstanceId string
-	VolumeId   string
+	DryRun    bool
+	VolumeIds []string
 }
 
 // ***************************************************************************
@@ -63,14 +61,7 @@ func (gormInst *GormDB) InitDB(dbname string) error {
 func (t *Plugin) GetRequest(args *Args, response *[]byte) error {
 
 	// GET requests don't change state, so, don't change state
-
-	ReturnError("Internal error: Unimplemented HTTP GET", response)
-	return nil
-}
-
-func (t *Plugin) PostRequest(args *Args, response *[]byte) error {
-
-	// POST requests can change state
+	// THIS GET REQUEST ACCEPTS POST DATA
 
 	// env_id is required, '?env_id=xxx'
 
@@ -148,7 +139,7 @@ func (t *Plugin) PostRequest(args *Args, response *[]byte) error {
 		return nil
 	}
 
-	// Attach the volume
+	// Describe the volume
 
 	creds := credentials.NewStaticCredentials(
 		awsdata.Aws_access_key_id,
@@ -161,24 +152,80 @@ func (t *Plugin) PostRequest(args *Args, response *[]byte) error {
 
 	svc := ec2.New(session.New(), &config)
 
-	params := &ec2.AttachVolumeInput{
-		// The device name to expose to the instance (for example, /dev/sdh or xvdh).
-		Device: aws.String(postedData.Device),
-
+	params := &ec2.DescribeVolumeStatusInput{
 		// Checks whether you have the required permissions for the action, without
 		// actually making the request, and provides an error response. If you have
 		// the required permissions, the error response is DryRunOperation. Otherwise,
 		// it is UnauthorizedOperation.
 		DryRun: aws.Bool(postedData.DryRun),
 
-		// The ID of the instance.
-		InstanceId: aws.String(postedData.InstanceId),
+		// One or more filters.
+		//
+		//    action.code - The action code for the event (for example,
+		//    enable-volume-io).
+		//
+		//    action.description - A description of the action.
+		//
+		//    action.event-id - The event ID associated with the action.
+		//
+		//    availability-zone - The Availability Zone of the instance.
+		//
+		//    event.description - A description of the event.
+		//
+		//    event.event-id - The event ID.
+		//
+		//    event.event-type - The event type (for io-enabled: passed |
+		//    failed; for io-performance: io-performance:degraded |
+		//    io-performance:severely-degraded | io-performance:stalled).
+		//
+		//    event.not-after - The latest end time for the event.
+		//
+		//    event.not-before - The earliest start time for the event.
+		//
+		//    volume-status.details-name - The cause for volume-status.status
+		//    (io-enabled | io-performance).
+		//
+		//    volume-status.details-status - The status of
+		//    volume-status.details-name (for io-enabled: passed | failed; for
+		//    io-performance: normal | degraded | severely-degraded | stalled).
+		//
+		//    volume-status.status - The status of the volume (ok | impaired |
+		//    warning | insufficient-data).
 
-		// The ID of the EBS volume. The volume and instance must be within the same
-		// Availability Zone.
-		VolumeId: aws.String(postedData.VolumeId),
+		//Filters []*Filter `locationName:"Filter" locationNameList:"Filter" type:"list"`
+
+		// The maximum number of volume results returned by
+		// DescribeVolumeStatus in paginated output. When this parameter is
+		// used, the request only returns MaxResults results in a single page
+		// along with a NextToken response element. The remaining results of
+		// the initial request can be seen by sending another request with the
+		// returned NextToken value. This value can be between 5 and 1000; if
+		// MaxResults is given a value larger than 1000, only 1000 results are
+		// returned. If this parameter is not used, then DescribeVolumeStatus
+		// returns all results. You cannot specify this parameter and the
+		// volume IDs parameter in the same request.
+
+		//MaxResults *int64 `type:"integer"`
+
+		// The NextToken value to include in a future DescribeVolumeStatus
+		// request.  When the results of the request exceed MaxResults, this
+		// value can be used to retrieve the next page of results. This value
+		// is null when there are no more results to return.
+
+		//NextToken *string `type:"string"`
+
+		// One or more volume IDs.
+		//
+		// Default: Describes all your volumes.
+
+		//VolumeIds: postedData.VolumeIds,
 	}
-	resp, err := svc.AttachVolume(params)
+	var ptrliststring []*string
+	for i := range postedData.VolumeIds {
+		ptrliststring = append(ptrliststring, &postedData.VolumeIds[i])
+	}
+	params.VolumeIds = ptrliststring
+	resp, err := svc.DescribeVolumeStatus(params)
 
 	if err != nil {
 		t := "Error running AttachVolume: " + err.Error()
@@ -200,6 +247,14 @@ func (t *Plugin) PostRequest(args *Args, response *[]byte) error {
 
 	*response = jsondata
 
+	return nil
+}
+
+func (t *Plugin) PostRequest(args *Args, response *[]byte) error {
+
+	// POST requests can change state
+
+	ReturnError("Internal error: Unimplemented HTTP GET", response)
 	return nil
 }
 
