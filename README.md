@@ -60,6 +60,8 @@ Create a volume in an availability zone.
 
 http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumes.html
 
+http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.CreateVolume
+
 ```
 POST data parameters for curl's '-d' option:
 
