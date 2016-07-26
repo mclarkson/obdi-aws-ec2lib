@@ -197,6 +197,7 @@ func (t *Plugin) PostRequest(args *Args, response *[]byte) error {
 
 	// POST requests can change state
 
+	ReturnError("Internal error: Unimplemented HTTP POST", response)
 	return nil
 }
 

@@ -24,6 +24,56 @@ by other plugins.
 
 ## REST End Points
 
+### create-volume
+
+Create a volume in an availability zone.
+
+http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumes.html
+
+```
+POST data parameters for curl's '-d' option:
+
+    Encrypted  bool
+    Iops       int64  // 100 to 20000 for io1
+    KmsKeyId   string // For encrypted volume
+    Size       int64  // In GB
+    SnapshotId string
+    VolumeType string // gp2, io1, st1, sc1 or standard
+```
+
+```
+# Log in
+
+$ ipport="127.0.0.1:443"
+
+$ guid=`curl -ks -d '{"Login":"nomen.nescio","Password":"password"}' \
+  https://$ipport/api/login | grep -o "[a-z0-9][^\"]*"`
+
+# Create a 30GB gp2 volume in availability zone us-west-2a
+
+$ curl -k -d '{"Size":30,"VolumeType":"gp2","Encrypted":false}' \
+  "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/create-volume?env_id=1&region=us-west-2&availability_zone=us-west-2a"
+
+```
+
+### describe-availability-zone
+
+Get the status of an availability zone.
+
+```
+# Log in
+
+$ ipport="127.0.0.1:443"
+
+$ guid=`curl -ks -d '{"Login":"nomen.nescio","Password":"password"}' \
+  https://$ipport/api/login | grep -o "[a-z0-9][^\"]*"`
+
+# Get status of availability zone us-east-1c
+
+$ curl -k "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-availability-zone?env_id=1&region=us-east-1&availability_zone=us-east-1c"
+
+```
+
 ### describe-instances
 
 ```

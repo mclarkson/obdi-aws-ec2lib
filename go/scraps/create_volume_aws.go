@@ -31,7 +31,8 @@ func main() {
 		// For encrypted volume:
 		//KmsKeyId:         aws.String("String"),
 
-		// In GB. Constraints: 1-16384 for gp2, 4-16384 for io1, 500-16384 for st1, 500-16384:
+		// In GB. Constraints: 1-16384 for gp2, 4-16384 for io1, 500-16384 for
+		// st1, 500-16384:
 		Size: aws.Int64(30),
 
 		// To create this vol from a snapshot:
