@@ -34,13 +34,10 @@ var region = "us-east-1"
 
 // The format of the json sent by the client in a POST request
 type PostedData struct {
+	Device     string
 	DryRun     bool
-	Encrypted  bool
-	Iops       int64  // 100 to 20000 for io1
-	KmsKeyId   string // For encrypted volume
-	Size       int64  // In GB
-	SnapshotId string
-	VolumeType string // gp2, io1, st1, sc1 or standard
+	InstanceId string
+	VolumeId   string
 }
 
 // ***************************************************************************
@@ -173,42 +170,24 @@ func (t *Plugin) PostRequest(args *Args, response *[]byte) error {
 
 	svc := ec2.New(session.New(), &config)
 
-	params := &ec2.CreateVolumeInput{
-		AvailabilityZone: aws.String(availzone), // Required
+	params := &ec2.AttachVolumeInput{
+		// The device name to expose to the instance (for example, /dev/sdh or xvdh).
+		Device: aws.String(availzone),
 
-		// With DryRun true:
-		//  DryRunOperation: Request would have succeeded, but DryRun flag is set.
-		//  status code: 412, request id: 6e56ac83-fa8f-4e1c-b4bc-7cb5ab888be2
-
+		// Checks whether you have the required permissions for the action, without
+		// actually making the request, and provides an error response. If you have
+		// the required permissions, the error response is DryRunOperation. Otherwise,
+		// it is UnauthorizedOperation.
 		DryRun: aws.Bool(postedData.DryRun),
-		//Encrypted: aws.Bool(postedData.Encrypted),
 
-		// Constraint: Range is 100 to 20000 for Provisioned IOPS SSD volumes:
-		//Iops: aws.Int64(postedData.Iops),
+		// The ID of the instance.
+		InstanceId: aws.String(postedData.InstanceId),
 
-		// For encrypted volume:
-		//KmsKeyId: aws.String(postedData.KmsKeyId),
-
-		// In GB. Constraints: 1-16384 for gp2, 4-16384 for io1, 500-16384 for
-		// st1, 500-16384:
-		Size: aws.Int64(postedData.Size),
-
-		// To create this vol from a snapshot:
-		SnapshotId: aws.String(postedData.SnapshotId),
-
-		// This can be gp2 for General Purpose SSD, io1 for Provisioned
-		// IOPS SSD, st1 for Throughput Optimized HDD, sc1 for Cold HDD, or standard
-		// for Magnetic volumes.
-		VolumeType: aws.String(postedData.VolumeType),
+		// The ID of the EBS volume. The volume and instance must be within the same
+		// Availability Zone.
+		VolumeId: aws.String(postedData.VolumeId),
 	}
-	if postedData.Encrypted == true {
-		params.Encrypted = aws.Bool(postedData.Encrypted)
-		params.KmsKeyId = aws.String(postedData.KmsKeyId)
-	}
-	if postedData.VolumeType == "io1" {
-		params.Iops = aws.Int64(postedData.Iops)
-	}
-	resp, err := svc.CreateVolume(params)
+	resp, err := svc.AttachVolume(params)
 
 	if err != nil {
 		t := "Error running CreateVolume: " + err.Error()
