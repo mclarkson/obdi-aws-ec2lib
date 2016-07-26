@@ -155,6 +155,40 @@ $ curl -k https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-regions
 
 ```
 
+### describe-volumes
+
+Get the details of an EBS volume.
+
+http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.DescribeVolumes
+
+```
+URL parameters:
+
+    dry_run     "true"|"false".
+    volume_id   E.g. vol-3af379e. Use more than once to specify more.
+                Omit volume_id to get status of all volumes.
+    env_id      E.g. 1.
+    region      E.g. us-east-1.
+```
+
+```
+# Log in
+
+$ ipport="127.0.0.1:443"
+
+$ guid=`curl -ks -d '{"Login":"nomen.nescio","Password":"password"}' \
+  https://$ipport/api/login | grep -o "[a-z0-9][^\"]*"`
+
+# Get details of all volumes
+
+$ curl -k "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-volumes?env_id=1&region=us-east-1"
+
+# Get details of volume vol-3af379e
+
+$ curl -k "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-volumes?env_id=1&region=us-east-1&volume_id=vol-3af379e"
+
+```
+
 ### describe-volume-status
 
 Get the status of an EBS volume.
