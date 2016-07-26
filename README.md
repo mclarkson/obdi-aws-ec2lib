@@ -162,10 +162,13 @@ Get the status of an EBS volume.
 http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.DescribeVolumeStatus
 
 ```
-POST data parameters for curl's '-d' option:
+URL parameters:
 
-    Device     string
-    VolumeIds  list of strings
+    dry_run     "true"|"false".
+    volume_id   E.g. vol-3af379e. Use more than once to specify more.
+                Omit volume_id to get status of all volumes.
+    env_id      E.g. 1.
+    region      E.g. us-east-1.
 ```
 
 ```
@@ -176,11 +179,13 @@ $ ipport="127.0.0.1:443"
 $ guid=`curl -ks -d '{"Login":"nomen.nescio","Password":"password"}' \
   https://$ipport/api/login | grep -o "[a-z0-9][^\"]*"`
 
-# Get status using a GET request with POST data. This is allowed but frowned upon:
-# http://stackoverflow.com/questions/978061/http-get-with-request-body#answer-983458
+# Get status of all volumes
 
-$ curl -k -X GET -d '{"VolumeIds":["vol-010101"]}' \
-  "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-volume-status?env_id=1&region=us-east-1"
+$ curl -k "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-volume-status?env_id=1&region=us-east-1"
+
+# Get status of volume vol-3af379e
+
+$ curl -k "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-volume-status?env_id=1&region=us-east-1&volume_id=vol-3af379e"
 
 ```
 
