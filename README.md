@@ -59,7 +59,9 @@ $ curl -k -d '{"Device":"/dev/sdb","InstanceId":"i-xxxxxx","VolumeId":"vol-xxxxx
 Create a volume in an availability zone.
 
 [CreateVolume (go aws sdk)](http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.CreateVolume)
+
 [EBS Volumes](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumes.html)
+
 [Device Naming](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/device_naming.html)
 
 ```
