@@ -34,13 +34,9 @@ var region = "us-east-1"
 
 // The format of the json sent by the client in a POST request
 type PostedData struct {
-	DryRun     bool
-	Encrypted  bool
-	Iops       int64  // 100 to 20000 for io1
-	KmsKeyId   string // For encrypted volume
-	Size       int64  // In GB
-	SnapshotId string
-	VolumeType string // gp2, io1, st1, sc1 or standard
+	DryRun      bool
+	VolumeId    string
+	Description string
 }
 
 // ***************************************************************************
@@ -83,24 +79,6 @@ func (t *Plugin) PostRequest(args *Args, response *[]byte) error {
 	}
 
 	env_id_str := args.QueryString["env_id"][0]
-
-	// region is required, '?region=xxx'
-
-	if len(args.QueryString["region"]) == 0 {
-		ReturnError("'region' must be set", response)
-		return nil
-	}
-
-	region := args.QueryString["region"][0]
-
-	// availability_zone is required, '?availability_zone=xxx'
-
-	if len(args.QueryString["availability_zone"]) == 0 {
-		ReturnError("'availability_zone' must be set", response)
-		return nil
-	}
-
-	availzone := args.QueryString["availability_zone"][0]
 
 	// Decode the post data into struct
 
@@ -160,7 +138,7 @@ func (t *Plugin) PostRequest(args *Args, response *[]byte) error {
 		return nil
 	}
 
-	// Create the volume
+	// Create the snapshot
 
 	creds := credentials.NewStaticCredentials(
 		awsdata.Aws_access_key_id,
@@ -173,45 +151,23 @@ func (t *Plugin) PostRequest(args *Args, response *[]byte) error {
 
 	svc := ec2.New(session.New(), &config)
 
-	params := &ec2.CreateVolumeInput{
-		AvailabilityZone: aws.String(availzone), // Required
+	params := &ec2.CreateSnapshotInput{
+		// The ID of the EBS volume.
+		VolumeId: aws.String(postedData.VolumeId),
 
 		// With DryRun true:
 		//  DryRunOperation: Request would have succeeded, but DryRun flag is set.
 		//  status code: 412, request id: 6e56ac83-fa8f-4e1c-b4bc-7cb5ab888be2
 
 		DryRun: aws.Bool(postedData.DryRun),
-		//Encrypted: aws.Bool(postedData.Encrypted),
 
-		// Constraint: Range is 100 to 20000 for Provisioned IOPS SSD volumes:
-		//Iops: aws.Int64(postedData.Iops),
-
-		// For encrypted volume:
-		//KmsKeyId: aws.String(postedData.KmsKeyId),
-
-		// In GB. Constraints: 1-16384 for gp2, 4-16384 for io1, 500-16384 for
-		// st1, 500-16384:
-		Size: aws.Int64(postedData.Size),
-
-		// To create this vol from a snapshot:
-		SnapshotId: aws.String(postedData.SnapshotId),
-
-		// This can be gp2 for General Purpose SSD, io1 for Provisioned
-		// IOPS SSD, st1 for Throughput Optimized HDD, sc1 for Cold HDD, or standard
-		// for Magnetic volumes.
-		VolumeType: aws.String(postedData.VolumeType),
+		// A description for the snapshot.
+		Description: aws.String(postedData.Description),
 	}
-	if postedData.Encrypted == true {
-		params.Encrypted = aws.Bool(postedData.Encrypted)
-		params.KmsKeyId = aws.String(postedData.KmsKeyId)
-	}
-	if postedData.VolumeType == "io1" {
-		params.Iops = aws.Int64(postedData.Iops)
-	}
-	resp, err := svc.CreateVolume(params)
+	resp, err := svc.CreateSnapshot(params)
 
 	if err != nil {
-		t := "Error running CreateVolume: " + err.Error()
+		t := "Error running CreateSnapshot: " + err.Error()
 		ReturnError(t, response)
 		return nil
 	}

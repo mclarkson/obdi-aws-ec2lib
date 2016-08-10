@@ -54,6 +54,37 @@ $ curl -k -d '{"Device":"/dev/sdb","InstanceId":"i-xxxxxx","VolumeId":"vol-xxxxx
 
 ```
 
+### create-snapshot
+
+Create a snapshot, in S3, of a volume.
+
+[CreateSnapshot (go aws sdk)](http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.CreateSnapshot)
+
+```
+POST data parameters for curl's '-d' option:
+
+    Description string  // Description of the snapshot.
+    VolumeId    string  // VolumeId to take a snapshot of.
+    DryRun      bool
+```
+
+```
+# Log in
+
+$ ipport="127.0.0.1:443"
+
+$ guid=`curl -ks -d '{"Login":"nomen.nescio","Password":"password"}' \
+  https://$ipport/api/login | grep -o "[a-z0-9][^\"]*"`
+
+# Create a 30GB gp2 volume in availability zone us-west-2a
+
+$ curl -k -d '{ "DryRun":false,
+                "Description":"Created by obdi-aws-p2ec2 for vol-cb5f1166",
+                "VolumeId":"vol-cb5f1166"}' \
+  "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/create-snapshot?env_id=1"
+
+```
+
 ### create-volume
 
 Create a volume in an availability zone.
