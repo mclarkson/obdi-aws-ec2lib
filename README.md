@@ -76,7 +76,7 @@ $ ipport="127.0.0.1:443"
 $ guid=`curl -ks -d '{"Login":"nomen.nescio","Password":"password"}' \
   https://$ipport/api/login | grep -o "[a-z0-9][^\"]*"`
 
-# Create a 30GB gp2 volume in availability zone us-west-2a
+# Create a snapshot of vol-cb5f1166 in S3
 
 $ curl -k -d '{ "DryRun":false,
                 "Description":"Created by obdi-aws-p2ec2 for vol-cb5f1166",
