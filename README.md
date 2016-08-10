@@ -256,3 +256,34 @@ $ curl -k "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-volume-sta
 
 ```
 
+### detach-volume
+
+Detach a volume from an instance.
+
+[DetachVolume (go aws sdk)](http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.DetachVolume)
+
+```
+POST data parameters for curl's '-d' option:
+
+    DryRun     bool
+    Device     string // The device name.
+    Force      bool   // Last-resort force detachment.
+    InstanceId string // The ID of the instance.
+    VolumeId   string // The ID of the volume to be detached.
+```
+
+```
+# Log in
+
+$ ipport="127.0.0.1:443"
+
+$ guid=`curl -ks -d '{"Login":"nomen.nescio","Password":"password"}' \
+  https://$ipport/api/login | grep -o "[a-z0-9][^\"]*"`
+
+# Detach volume vol-cb5f1166, mounted on /dev/xvdb, from instance i-d0d63149:
+
+$ curl -k -d '{"Device":"/dev/xvdb","InstanceId":"i-d0d63149","VolumeId":"vol-cb5f1166"}' \
+  "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/detach-volume?env_id=1"
+
+```
+
