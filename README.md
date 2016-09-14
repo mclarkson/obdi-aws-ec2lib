@@ -283,7 +283,7 @@ $ guid=`curl -ks -d '{"Login":"nomen.nescio","Password":"password"}' \
 # Detach volume vol-cb5f1166, mounted on /dev/xvdb, from instance i-d0d63149:
 
 $ curl -k -d '{"Device":"/dev/xvdb","InstanceId":"i-d0d63149","VolumeId":"vol-cb5f1166"}' \
-  "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/detach-volume?env_id=1"
+  "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/detach-volume?env_id=1&region=us-west-1"
 
 ```
 
