@@ -80,6 +80,15 @@ func (t *Plugin) PostRequest(args *Args, response *[]byte) error {
 
 	env_id_str := args.QueryString["env_id"][0]
 
+	// region is required, '?region=xxx'
+
+	if len(args.QueryString["region"]) == 0 {
+		ReturnError("'region' must be set", response)
+		return nil
+	}
+
+	region := args.QueryString["region"][0]
+
 	// Decode the post data into struct
 
 	var postedData PostedData
