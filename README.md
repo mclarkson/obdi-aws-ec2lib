@@ -188,9 +188,61 @@ $ curl -k https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-regions
 
 ```
 
+### describe-snapshots
+
+Get the details of EBS snapshot(s).
+
+http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.DescribeSnapshots
+
+```
+URL parameters:
+
+    dry_run                "true"|"false".
+    filter                 List. E.g. snapshot-id=snap-cd90d5ea.
+                           Use more than once to specify more.
+    owner_id               List. Use more than once to specify more.
+    snapshot_id            List. Use more than once to specify more.
+                           Omit snapshot_id to get status of all volumes.
+    restorable_by_user_id  List. Use more than once to specify more.
+    max_results            E.g. 100.
+    next_token             E.g. token.
+    env_id                 E.g. 1.
+    region                 E.g. us-east-1.
+```
+
+The filter name snapshot-id was used above. A list of all filter names are at:
+
+  https://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#DescribeSnapshotsInput
+
+To specify multiple values for a filter key use a comma, not more filter entries.
+
+Examples:
+
+Filter by status completed or error (but not pending status):
+> &filter=status=completed,error
+
+Filter by 3 'volume-id's that the snapshot is for.
+> &filter=volume-id=vol-810baafb,vol-cdea3445,vol-800baafa
+
+```
+# Log in
+
+$ ipport="127.0.0.1:443"
+
+$ guid=`curl -ks -d '{"Login":"nomen.nescio","Password":"password"}' \
+  https://$ipport/api/login | grep -o "[a-z0-9][^\"]*"`
+
+# Show all snapshots that you're allowed to see
+
+$ curl -k "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-snapshots?env_id=2&region=us-west-2"
+
+$ curl -k "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-snapshots?env_id=2&region=us-west-2&snapshot_id=snap-38cfe109&snapshot_id=snap-7fb97b3b"
+
+```
+
 ### describe-volumes
 
-Get the details of an EBS volume.
+Get the details of EBS volume(s).
 
 http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.DescribeVolumes
 

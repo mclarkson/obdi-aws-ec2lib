@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+// GOPATH=$PWD go build describe-snapshots.go obdi_clientlib.go
+
 package main
 
 import (
@@ -28,6 +30,7 @@ import (
 	"net/rpc"
 	"os"
 	"strconv"
+	"strings"
 )
 
 var region = "us-east-1"
@@ -134,14 +137,10 @@ func (t *Plugin) GetRequest(args *Args, response *[]byte) error {
 
 	svc := ec2.New(session.New(), &config)
 
-	params := &ec2.DescribeVolumesInput{}
-	var ptrliststring []*string
-	if len(args.QueryString["volume_id"]) > 0 {
-		for i := range args.QueryString["volume_id"] {
-			ptrliststring = append(ptrliststring, &args.QueryString["volume_id"][i])
-		}
-	}
-	params.VolumeIds = ptrliststring
+	params := &ec2.DescribeSnapshotsInput{}
+
+	// dry_run
+
 	if len(args.QueryString["dry_run"]) > 0 {
 		if args.QueryString["dry_run"][0] == "true" {
 			params.DryRun = aws.Bool(true)
@@ -149,10 +148,72 @@ func (t *Plugin) GetRequest(args *Args, response *[]byte) error {
 			params.DryRun = aws.Bool(false)
 		}
 	}
-	resp, err := svc.DescribeVolumes(params)
+
+	// filter
+
+	if len(args.QueryString["filter"]) > 0 {
+		for i := range args.QueryString["filter"] {
+			keyval := strings.SplitN(args.QueryString["filter"][i], "=", 2)
+			if len(keyval) != 2 {
+				txt := fmt.Sprintf("Error: Invalid filter expression ('%s'). No '=' found.",
+					args.QueryString["filter"][i])
+				ReturnError(txt, response)
+				return nil
+			}
+			var vals []*string
+			items := strings.Split(keyval[1], ",")
+			for j := range items {
+				vals = append(vals, &items[j])
+			}
+			flt := ec2.Filter{Name: &keyval[0], Values: vals}
+			params.Filters = append(params.Filters, &flt)
+		}
+	}
+
+	// owner_id
+
+	if len(args.QueryString["owner_id"]) > 0 {
+		for i := range args.QueryString["owner_id"] {
+			params.OwnerIds = append(params.OwnerIds,
+				&args.QueryString["owner_id"][i])
+		}
+	}
+
+	// snapshot_id
+
+	if len(args.QueryString["snapshot_id"]) > 0 {
+		for i := range args.QueryString["snapshot_id"] {
+			params.SnapshotIds = append(params.SnapshotIds,
+				&args.QueryString["snapshot_id"][i])
+		}
+	}
+
+	// restorable_by_user_id
+
+	if len(args.QueryString["restorable_by_user_id"]) > 0 {
+		for i := range args.QueryString["restorable_by_user_id"] {
+			params.RestorableByUserIds = append(params.RestorableByUserIds,
+				&args.QueryString["restorable_by_user_id"][i])
+		}
+	}
+
+	// max_results
+
+	if len(args.QueryString["max_results"]) > 0 {
+		MaxResults, _ := strconv.ParseInt(args.QueryString["max_results"][0], 10, 64)
+		params.MaxResults = &MaxResults
+	}
+
+	// next_token
+
+	if len(args.QueryString["max_results"]) > 0 {
+		params.NextToken = &args.QueryString["next_token"][0]
+	}
+
+	resp, err := svc.DescribeSnapshots(params)
 
 	if err != nil {
-		t := "Error running AttachVolume: " + err.Error()
+		t := "Error running DescribeSnapshots: " + err.Error()
 		ReturnError(t, response)
 		return nil
 	}
