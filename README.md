@@ -236,7 +236,15 @@ $ guid=`curl -ks -d '{"Login":"nomen.nescio","Password":"password"}' \
 
 $ curl -k "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-snapshots?env_id=2&region=us-west-2"
 
+# Show the details for two snapshot IDs
+# It is an error to use a non-existent snapshot ID and AWS will complain
+
 $ curl -k "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-snapshots?env_id=2&region=us-west-2&snapshot_id=snap-38cfe109&snapshot_id=snap-7fb97b3b"
+
+# Show the details for the same two snapshot IDs using filters instead
+# It is /not/ an error to use a non-existent snapshot ID and AWS will /not/ complain.
+
+$ curl -k "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-snapshots?env_id=2&region=us-west-2&filter=snapshot-id=snap-38cfe109,snap-7fb97b3b"
 
 ```
 
