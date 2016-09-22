@@ -121,6 +121,34 @@ $ curl -k -d '{"Size":30,"VolumeType":"gp2","Encrypted":false}' \
 
 ```
 
+### delete-volume
+
+Delete a volume from a region.
+
+[DeleteVolume (go aws sdk)](http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.DeleteVolume)
+
+```
+POST data parameters for curl's '-d' option:
+
+    DryRun     bool
+    VolumeId   string
+```
+
+```
+# Log in
+
+$ ipport="127.0.0.1:443"
+
+$ guid=`curl -ks -d '{"Login":"nomen.nescio","Password":"password"}' \
+  https://$ipport/api/login | grep -o "[a-z0-9][^\"]*"`
+
+# Delete Volume vol-c5e13a4d
+
+$ curl -k -d '{"DryRun":false,"VolumeId":"vol-c5e13a4d"}' \
+  "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/delete-volume?env_id=1&region=us-west-2"
+
+```
+
 ### describe-availability-zone
 
 Get the status of an availability zone.
