@@ -384,7 +384,31 @@ Create an AMI from a snapshot.
 ```
 POST data parameters for curl's '-d' option:
 
-    LOTS!
+    Name               string  // A name for your AMI.
+    Architecture       string
+    Description        string  // A description for your AMI.
+    DryRun             bool
+    EnaSupport         bool    // enhanced networking with ENA.
+    ImageLocation      string  // full path to your AMI manifest in Amazon S3.
+    KernelId           string  // The ID of the kernel.
+    RamdiskId          string  // The ID of the RAM disk.
+    RootDeviceName     string  // for example, /dev/sda1, or /dev/xvda.
+    SriovNetSupport    string  // enhanced networking with the Intel 82599
+    VirtualizationType string  // The type of virtualization. Default: paravirtual
+
+    BlockDeviceMappings [{
+        DeviceName  string  // The device name exposed to the instance (for example, /dev/sdh or xvdh).
+        NoDevice    string  // Suppresses the specified device
+        VirtualName string  // The virtual device name (ephemeralN).
+        Ebs {
+            DeleteOnTermination bool   // Indicates whether the EBS volume is deleted on termination
+            Encrypted           bool   // Indicates whether the EBS volume is encrypted.
+            Iops                int64  // The number of I/O operations per second (IOPS) that the volume supports.
+            SnapshotId          string // The ID of the snapshot.
+            VolumeSize          int64  // The size of the volume, in GiB.
+            VolumeType          string // The volume type: gp2, io1, st1, sc1, or standard.
+        }
+    }]
 ```
 
 ```
