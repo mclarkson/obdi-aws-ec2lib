@@ -375,3 +375,47 @@ $ curl -k -d '{"Device":"/dev/xvdb","InstanceId":"i-d0d63149","VolumeId":"vol-cb
 
 ```
 
+### register-image
+
+Create an AMI from a snapshot.
+
+[RegisterImage (go aws sdk)](http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.RegisterImage)
+
+```
+POST data parameters for curl's '-d' option:
+
+    LOTS!
+```
+
+```
+# Log in
+
+$ ipport="127.0.0.1:443"
+
+$ guid=`curl -ks -d '{"Login":"nomen.nescio","Password":"password"}' \
+  https://$ipport/api/login | grep -o "[a-z0-9][^\"]*"`
+
+# Create a 30GB gp2 volume in availability zone us-west-2a
+
+$ curl -k -d '
+{
+    "Name":"My AMI",
+    "Description":"My AMI Description",
+    "RootDeviceName":"sda1",
+    "VirtualizationType":"hvm",
+    "BlockDeviceMappings":[
+        {
+            "DeviceName":"sda1",
+            "Ebs":{
+                "DeleteOnTermination":true,
+                "SnapshotId":"snap-af21558b",
+                "VolumeSize":21,
+                "VolumeType":"gp2"
+             }
+         }
+    ]
+}' \
+  "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/register-image?env_id=2&region=us-west-2"
+
+```
+
