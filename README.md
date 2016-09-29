@@ -443,3 +443,121 @@ $ curl -k -d '
 
 ```
 
+### run-instances
+
+Create an Instance from an AMI.
+
+[RunInstances (go aws sdk)](http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.RunInstances)
+
+```
+Supported POST data JSON parameters:
+
+    AdditionalInfo string  // Reserved.
+    ClientToken    string  // Identifier you provide to ensure the idempotency.
+    DisableApiTermination string  // If you set this parameter to true, you can't terminate the instance.
+    DryRun         bool
+    EbsOptimized   bool    // Indicates whether the instance is optimized for EBS I/O.
+    ImageId        string  // The ID of the AMI.
+    InstanceInitiatedShutdownBehavior string // Whether an instance stops or terminates.
+    InstanceType   string  // The instance type. Default: m1.small.
+    KernelId       string  // The ID of the kernel.
+    KeyName        string  // The name of the key pair.
+    MaxCount       int64   // The maximum number of instances to launch.
+    MinCount       int64   // The minimum number of instances to launch.
+    PrivateIpAddress string  // [EC2-VPC] The primary IP address.
+    RamdiskId      string  // The ID of the RAM disk.
+    SubnetId       string  // [EC2-VPC] The ID of the subnet to launch the instance into.
+    UserData       string  // The user data to make available to the instance.
+
+    // One or more security group IDs. You can create a security group using CreateSecurityGroup.
+    // Default: Amazon EC2 uses the default security group.
+    SecurityGroupIds [ string ]
+
+    // [EC2-Classic, default VPC] One or more security group names. For a nondefault
+    // VPC, you must use security group IDs instead.
+    // Default: Amazon EC2 uses the default security group.
+    SecurityGroups [ string ]
+
+    Monitoring {
+        Enabled bool  //Indicates whether monitoring is enabled for the instance.
+    }
+
+    NetworkInterfaces [{
+        AssociatePublicIpAddress bool    // Indicates whether to assign a public IP address to an instance.
+        DeleteOnTermination      bool    // Whether the interface is deleted on termination.
+        Description              string  // The description of the network interface.
+        DeviceIndex              int64   // You must provide the device index.
+        Groups                   string  // The IDs of the security groups for the network interface.
+        NetworkInterfaceId       string  // The ID of the network interface.
+        PrivateIpAddress         string  // The private IP address of the network interface.
+        SubnetId                 string  // The ID of the subnet associated with the network string.
+        SecondaryPrivateIpAddressCount int64 // The number of secondary private IP addresses.
+
+        PrivateIpAddresses [{
+            Primary           bool   // Indicates whether this is the primary private IP address.
+            PrivateIpAddress  string // The private IP addresses.
+        }]
+
+    }]
+
+    Placement {
+        Affinity         string  // The affinity setting for the instance on the Dedicated Host.
+        AvailabilityZone string  // The Availability Zone of the instance.
+        GroupName        string  // The name of the placement group the instance is in.
+        HostId           string  // The ID of the Dedicted host on which the instance resides.
+        Tenancy          string  // The tenancy of the instance (if the instance is running in a VPC).
+                                 // default, dedicated or host
+    }
+
+    IamInstanceProfile IamInstanceProfileSpecification { // The IAM instance profile.
+        Arn    string  // The Amazon Resource Name (ARN) of the instance profile.
+        Name   string  // The name of the instance profile.
+    }
+
+    BlockDeviceMappings [{
+        DeviceName  string  // The device name exposed to the instance (for example, /dev/sdh or xvdh).
+        NoDevice    string  // Suppresses the specified device
+        VirtualName string  // The virtual device name (ephemeralN).
+        Ebs {
+            DeleteOnTermination bool   // Indicates whether the EBS volume is deleted on termination
+            Encrypted           bool   // Indicates whether the EBS volume is encrypted.
+            Iops                int64  // The number of I/O operations per second (IOPS) that the volume supports.
+            SnapshotId          string // The ID of the snapshot.
+            VolumeSize          int64  // The size of the volume, in GiB.
+            VolumeType          string // The volume type: gp2, io1, st1, sc1, or standard.
+        }
+    }]
+```
+
+```
+# Log in
+
+$ ipport="127.0.0.1:443"
+
+$ guid=`curl -ks -d '{"Login":"nomen.nescio","Password":"password"}' \
+  https://$ipport/api/login | grep -o "[a-z0-9][^\"]*"`
+
+# Create an Instance from an AMI
+
+$ curl -k -d '
+{
+    "Name":"My AMI",
+    "Description":"My AMI Description",
+    "RootDeviceName":"sda1",
+    "VirtualizationType":"hvm",
+    "BlockDeviceMappings":[
+        {
+            "DeviceName":"sda1",
+            "Ebs":{
+                "DeleteOnTermination":true,
+                "SnapshotId":"snap-af21558b",
+                "VolumeSize":21,
+                "VolumeType":"gp2"
+             }
+         }
+    ]
+}' \
+  "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/run-instances?env_id=2&region=us-west-2"
+
+```
+
