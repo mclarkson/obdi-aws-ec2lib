@@ -31,7 +31,7 @@ Attach a volume to a running or stopped instance.
 http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.AttachVolume
 
 ```
-POST data parameters for curl's '-d' option:
+Supported POST data JSON parameters:
 
     Device     string
     DryRun     bool
@@ -61,7 +61,7 @@ Create a snapshot, in S3, of a volume.
 [CreateSnapshot (go aws sdk)](http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.CreateSnapshot)
 
 ```
-POST data parameters for curl's '-d' option:
+Supported POST data JSON parameters:
 
     Description string  // Description of the snapshot.
     VolumeId    string  // VolumeId to take a snapshot of.
@@ -96,7 +96,7 @@ Create a volume in an availability zone.
 [Device Naming](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/device_naming.html)
 
 ```
-POST data parameters for curl's '-d' option:
+Supported POST data JSON parameters:
 
     Encrypted  bool
     Iops       int64  // 100 to 20000 for io1
@@ -128,7 +128,7 @@ Delete a volume from a region.
 [DeleteVolume (go aws sdk)](http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.DeleteVolume)
 
 ```
-POST data parameters for curl's '-d' option:
+Supported POST data JSON parameters:
 
     DryRun     bool
     VolumeId   string
@@ -351,7 +351,7 @@ Detach a volume from an instance.
 [DetachVolume (go aws sdk)](http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.DetachVolume)
 
 ```
-POST data parameters for curl's '-d' option:
+Supported POST data JSON parameters:
 
     DryRun     bool
     Device     string // The device name.
@@ -382,7 +382,7 @@ Create an AMI from a snapshot.
 [RegisterImage (go aws sdk)](http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.RegisterImage)
 
 ```
-POST data parameters for curl's '-d' option:
+Supported POST data JSON parameters:
 
     Name               string  // A name for your AMI.
     Architecture       string
@@ -419,7 +419,7 @@ $ ipport="127.0.0.1:443"
 $ guid=`curl -ks -d '{"Login":"nomen.nescio","Password":"password"}' \
   https://$ipport/api/login | grep -o "[a-z0-9][^\"]*"`
 
-# Create a 30GB gp2 volume in availability zone us-west-2a
+# Create an AMI from a snapshot
 
 $ curl -k -d '
 {
