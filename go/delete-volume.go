@@ -160,8 +160,6 @@ func (t *Plugin) PostRequest(args *Args, response *[]byte) error {
 	svc := ec2.New(session.New(), &config)
 
 	params := &ec2.DeleteVolumeInput{
-		AvailabilityZone: aws.String(availzone), // Required
-
 		// With DryRun true:
 		//  DryRunOperation: Request would have succeeded, but DryRun flag is set.
 		//  status code: 412, request id: 6e56ac83-fa8f-4e1c-b4bc-7cb5ab888be2
