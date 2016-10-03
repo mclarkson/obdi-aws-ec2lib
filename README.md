@@ -537,20 +537,19 @@ $ ipport="127.0.0.1:443"
 $ guid=`curl -ks -d '{"Login":"nomen.nescio","Password":"password"}' \
   https://$ipport/api/login | grep -o "[a-z0-9][^\"]*"`
 
-# Create an Instance from an AMI
+# Create an Instance from an AMI using mostly default values.
 
 $ curl -k -d '
 {
-    "Name":"My AMI",
-    "Description":"My AMI Description",
-    "RootDeviceName":"sda1",
-    "VirtualizationType":"hvm",
+    "ImageId":"ami-e6d00e86",
+    "InstanceType":"t2.micro",
+    "MaxCount":1,
+    "MinCount":1,
     "BlockDeviceMappings":[
         {
             "DeviceName":"sda1",
             "Ebs":{
                 "DeleteOnTermination":true,
-                "SnapshotId":"snap-af21558b",
                 "VolumeSize":21,
                 "VolumeType":"gp2"
              }
