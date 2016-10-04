@@ -24,7 +24,24 @@ by other plugins.
 
 ## REST End Points
 
-### attach-volume
+[attach-volume](#attach-volume)
+[create-image](#create-image)
+[create-snapshot](#create-snapshot)
+[create-volume](#create-volume)
+[delete-volume](#delete-volume)
+[describe-availability-zone](#describe-availability-zone)
+[describe-instances](#describe-instances)
+[describe-regions](#describe-regions)
+[describe-snapshots](#describe-snapshots)
+[describe-volume-status](#describe-volume-status)
+[describe-volumes](#describe-volumes)
+[detach-volume](#detach-volume)
+[import-image](#import-image)
+[import-instance](#import-instance)
+[register-image](#register-image)
+[run-instances](#run-instances)
+
+### <a name="attach-volume"></a>attach-volume
 
 Attach a volume to a running or stopped instance.
 
@@ -54,7 +71,11 @@ $ curl -k -d '{"Device":"/dev/sdb","InstanceId":"i-xxxxxx","VolumeId":"vol-xxxxx
 
 ```
 
-### create-snapshot
+### <a name="create-image"></a>create-image
+
+UNIMPLEMENTED
+
+### <a name="create-snapshot"></a>create-snapshot
 
 Create a snapshot, in S3, of a volume.
 
@@ -85,7 +106,7 @@ $ curl -k -d '{ "DryRun":false,
 
 ```
 
-### create-volume
+### <a name="create-volume"></a>create-volume
 
 Create a volume in an availability zone.
 
@@ -121,7 +142,7 @@ $ curl -k -d '{"Size":30,"VolumeType":"gp2","Encrypted":false}' \
 
 ```
 
-### delete-volume
+### <a name="delete-volume"></a>delete-volume
 
 Delete a volume from a region.
 
@@ -149,7 +170,7 @@ $ curl -k -d '{"DryRun":false,"VolumeId":"vol-c5e13a4d"}' \
 
 ```
 
-### describe-availability-zone
+### <a name="describe-availability-zone"></a>describe-availability-zone
 
 Get the status of an availability zone.
 
@@ -167,7 +188,7 @@ $ curl -k "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-availabili
 
 ```
 
-### describe-instances
+### <a name="describe-instances"></a>describe-instances
 
 ```
 # Log in
@@ -199,7 +220,7 @@ The filter name instance-id was used above. A list of all filter names are at:
 
   https://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#DescribeInstancesInput
 
-### describe-regions
+### <a name="describe-regions"></a>describe-regions
 
 ```
 # Log in
@@ -216,7 +237,7 @@ $ curl -k https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-regions
 
 ```
 
-### describe-snapshots
+### <a name="describe-snapshots"></a>describe-snapshots
 
 Get the details of EBS snapshot(s).
 
@@ -276,7 +297,7 @@ $ curl -k "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-snapshots?
 
 ```
 
-### describe-volumes
+### <a name="describe-volumes"></a>describe-volumes
 
 Get the details of EBS volume(s).
 
@@ -310,7 +331,7 @@ $ curl -k "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-volumes?en
 
 ```
 
-### describe-volume-status
+### <a name="describe-volume-status"></a>describe-volume-status
 
 Get the status of an EBS volume.
 
@@ -344,7 +365,7 @@ $ curl -k "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-volume-sta
 
 ```
 
-### detach-volume
+### <a name="detach-volume"></a>detach-volume
 
 Detach a volume from an instance.
 
@@ -375,7 +396,15 @@ $ curl -k -d '{"Device":"/dev/xvdb","InstanceId":"i-d0d63149","VolumeId":"vol-cb
 
 ```
 
-### register-image
+### <a name="import-image"></a>import-image
+
+UNIMPLEMENTED
+
+### <a name="import-instance"></a>import-instance
+
+UNIMPLEMENTED
+
+### <a name="register-image"></a>register-image
 
 Create an AMI from a snapshot.
 
@@ -443,7 +472,7 @@ $ curl -k -d '
 
 ```
 
-### run-instances
+### <a name="run-instances"></a>run-instances
 
 Create an Instance from an AMI.
 
