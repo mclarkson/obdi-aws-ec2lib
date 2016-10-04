@@ -24,39 +24,22 @@ by other plugins.
 
 ## REST End Points
 
-
-[attach-volume](#attach-volume)
-
-[create-image](#create-image)
-
-[create-snapshot](#create-snapshot)
-
-[create-volume](#create-volume)
-
-[delete-volume](#delete-volume)
-
-[describe-availability-zone](#describe-availability-zone)
-
-[describe-instances](#describe-instances)
-
-[describe-regions](#describe-regions)
-
-[describe-snapshots](#describe-snapshots)
-
-[describe-volume-status](#describe-volume-status)
-
-[describe-volumes](#describe-volumes)
-
-[detach-volume](#detach-volume)
-
-[import-image](#import-image)
-
-[import-instance](#import-instance)
-
-[register-image](#register-image)
-
+[attach-volume](#attach-volume)<br>
+[create-image](#create-image)<br>
+[create-snapshot](#create-snapshot)<br>
+[create-volume](#create-volume)<br>
+[delete-volume](#delete-volume)<br>
+[describe-availability-zone](#describe-availability-zone)<br>
+[describe-instances](#describe-instances)<br>
+[describe-regions](#describe-regions)<br>
+[describe-snapshots](#describe-snapshots)<br>
+[describe-volume-status](#describe-volume-status)<br>
+[describe-volumes](#describe-volumes)<br>
+[detach-volume](#detach-volume)<br>
+[import-image](#import-image)<br>
+[import-instance](#import-instance)<br>
+[register-image](#register-image)<br>
 [run-instances](#run-instances)
-
 
 ### <a name="attach-volume"></a>attach-volume
 
