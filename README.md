@@ -18,7 +18,7 @@ by other plugins.
 
 * Log into the admin interface, 'https://ObdiHost/manager/admin'.
 * In Plugins -> Manage Repositories add, 'https://github.com/mclarkson/obdi-awstools-repository.git'
-* In Plugins -> Add Plugin, choose 'aws-p2ec2' and Install.
+* In Plugins -> Add Plugin, choose 'aws-ec2lib' and Install.
 
 # Dev
 
