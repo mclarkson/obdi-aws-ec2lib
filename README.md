@@ -24,22 +24,39 @@ by other plugins.
 
 ## REST End Points
 
+
 [attach-volume](#attach-volume)
+
 [create-image](#create-image)
+
 [create-snapshot](#create-snapshot)
+
 [create-volume](#create-volume)
+
 [delete-volume](#delete-volume)
+
 [describe-availability-zone](#describe-availability-zone)
+
 [describe-instances](#describe-instances)
+
 [describe-regions](#describe-regions)
+
 [describe-snapshots](#describe-snapshots)
+
 [describe-volume-status](#describe-volume-status)
+
 [describe-volumes](#describe-volumes)
+
 [detach-volume](#detach-volume)
+
 [import-image](#import-image)
+
 [import-instance](#import-instance)
+
 [register-image](#register-image)
+
 [run-instances](#run-instances)
+
 
 ### <a name="attach-volume"></a>attach-volume
 
