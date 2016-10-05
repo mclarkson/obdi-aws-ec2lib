@@ -74,14 +74,13 @@ func (t *Plugin) GetRequest(args *Args, response *[]byte) error {
 
 	region := args.QueryString["region"][0]
 
-	// region is required, '?region=xxx'
+	// availability_zone is optional, '?availability_zone=xxx'
 
-	if len(args.QueryString["availability_zone"]) == 0 {
-		ReturnError("'availability_zone' must be set", response)
-		return nil
+	var availzone string
+
+	if len(args.QueryString["availability_zone"]) > 0 {
+		availzone = args.QueryString["availability_zone"][0]
 	}
-
-	availzone := args.QueryString["availability_zone"][0]
 
 	// Get aws_access_key_id and aws_secret_access_key from
 	// the AWS_ACCESS_KEY_ID_1 capability using sdtoken
@@ -141,8 +140,14 @@ func (t *Plugin) GetRequest(args *Args, response *[]byte) error {
 
 	svc := ec2.New(session.New(), &config)
 
-	params := &ec2.DescribeAvailabilityZonesInput{
-		ZoneNames: []*string{&availzone},
+	var params *ec2.DescribeAvailabilityZonesInput
+
+	if len(availzone) > 0 {
+		params = &ec2.DescribeAvailabilityZonesInput{
+			ZoneNames: []*string{&availzone},
+		}
+	} else {
+		params = &ec2.DescribeAvailabilityZonesInput{}
 	}
 
 	resp, err := svc.DescribeAvailabilityZones(params)
