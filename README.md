@@ -102,9 +102,14 @@ $ guid=`curl -ks -d '{"Login":"nomen.nescio","Password":"password"}' \
 
 # Copy an image from us-west-2 to us-east-1
 
-$ curl -k -d '{"Size":30,"VolumeType":"gp2","Encrypted":false}' \
-  "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/create-volume?env_id=1&region=us-west-2&availability_zone=us-west-2a"
-
+$ curl -k -d '
+{
+    "Name":"Fantastic Copied Image",
+    "SourceRegion":"us-west-2",
+    "SourceImageId":"ami-a9d109c9",
+    "Description":"Image copied from us-west-2"
+}' \
+  "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/copy-image?env_id=2&region=us-east-1"
 ```
 
 ### <a name="copy-snapshot"></a>copy-snapshot
@@ -141,8 +146,13 @@ $ guid=`curl -ks -d '{"Login":"nomen.nescio","Password":"password"}' \
 
 # Copy a snapshot from us-west-2 to us-east-1
 
-$ curl -k -d '{"Size":30,"VolumeType":"gp2","Encrypted":false}' \
-  "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/create-volume?env_id=1&region=us-west-2&availability_zone=us-west-2a"
+$ curl -k -d '
+{
+    "SourceRegion":"us-west-2",
+    "SourceSnapshotId":"snap-ac56028b",
+    "Description":"Snapshot copied from us-west-2"
+}' \
+  "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/copy-snapshot?env_id=2&region=us-east-1"
 
 ```
 
