@@ -587,5 +587,31 @@ $ curl -k -d '
 }' \
   "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/run-instances?env_id=2&region=us-west-2"
 
+# Create an Instance from an AMI using mostly default values.
+# Additionally specify the Availability zone and security group.
+
+$ curl -k -d '
+{
+    "ImageId":"ami-e6d00e86",
+    "InstanceType":"t2.micro",
+    "MaxCount":1,
+    "MinCount":1,
+    "SecurityGroups":"mainsg"
+    "Placement": {
+        "AvailabilityZone":"us-west-2c"
+    },
+    "BlockDeviceMappings":[
+        {
+            "DeviceName":"sda1",
+            "Ebs":{
+                "DeleteOnTermination":true,
+                "VolumeSize":21,
+                "VolumeType":"gp2"
+             }
+         }
+    ]
+}' \
+  "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/run-instances?env_id=2&region=us-west-2"
+
 ```
 
