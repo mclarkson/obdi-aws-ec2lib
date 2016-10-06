@@ -106,6 +106,45 @@ $ curl -k -d '{"Size":30,"VolumeType":"gp2","Encrypted":false}' \
 
 ```
 
+### <a name="copy-snapshot"></a>copy-snapshot
+
+Copy a snapshot to the same or different region.
+
+[CopySnapshot (go aws sdk)](http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.CopySnapshot)
+
+```
+Supported POST data JSON parameters:
+
+    SourceSnapshotId  string  // The ID of the EBS Snapshot to copy.
+    SourceRegion      string  // The name of the region that contains the snapshot to copy.
+    Description       string  // A description for the new AMI in the destination region.
+    PresignedUrl      string  // The pre-signed URL that facilitates copying an encrypted snapshot.
+    DestinationRegion string  // The destination region to use in the PresignedUrl parameter
+                              //  of a snapshot copy operation. This parameter is only valid
+                              //  for specifying the destination region in a PresignedUrl
+                              //  parameter, where it is required.
+    DryRun            bool    // Checks whether you have the required permissions for the action.
+    Encrypted         bool    // Specifies whether the destination snapshots of the
+                              //  copied image should be encrypted.
+    KmsKeyId          string  // The full ARN of the AWS Key Management Service (AWS KMS)
+                              //  CMK to use when encrypting the snapshots
+```
+
+```
+# Log in
+
+$ ipport="127.0.0.1:443"
+
+$ guid=`curl -ks -d '{"Login":"nomen.nescio","Password":"password"}' \
+  https://$ipport/api/login | grep -o "[a-z0-9][^\"]*"`
+
+# Copy a snapshot from us-west-2 to us-east-1
+
+$ curl -k -d '{"Size":30,"VolumeType":"gp2","Encrypted":false}' \
+  "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/create-volume?env_id=1&region=us-west-2&availability_zone=us-west-2a"
+
+```
+
 ### <a name="create-image"></a>create-image
 
 UNIMPLEMENTED
