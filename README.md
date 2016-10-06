@@ -25,6 +25,7 @@ by other plugins.
 ## REST End Points
 
 [attach-volume](#attach-volume)<br>
+[copy-image](#copy-image)<br>
 [create-image](#create-image)<br>
 [create-snapshot](#create-snapshot)<br>
 [create-volume](#create-volume)<br>
@@ -68,6 +69,40 @@ $ guid=`curl -ks -d '{"Login":"nomen.nescio","Password":"password"}' \
 
 $ curl -k -d '{"Device":"/dev/sdb","InstanceId":"i-xxxxxx","VolumeId":"vol-xxxxx"}' \
   "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/attach-volume?env_id=1&region=us-west-2"
+
+```
+
+### <a name="copy-image"></a>copy-image
+
+Copy an AMI to a different region.
+
+[CopyImage (go aws sdk)](http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.CopyImage)
+
+```
+Supported POST data JSON parameters:
+
+    Name          string  // The name of the new AMI in the destination region.
+    SourceImageId string  // The ID of the AMI to copy.
+    SourceRegion  string  // The name of the region that contains the AMI to copy.
+    Description   string  // A description for the new AMI in the destination region.
+    DryRun        bool    // Checks whether you have the required permissions for the action.
+    ClientToken   string  // Unique, case-sensitive identifier you provide to ensure idempotency.
+    Encrypted     bool    // Specifies whether the destination snapshots of the copied image should be encrypted.
+    KmsKeyId      string  // The full ARN of the AWS Key Management Service (AWS KMS) CMK to use when encrypting the snapshots
+```
+
+```
+# Log in
+
+$ ipport="127.0.0.1:443"
+
+$ guid=`curl -ks -d '{"Login":"nomen.nescio","Password":"password"}' \
+  https://$ipport/api/login | grep -o "[a-z0-9][^\"]*"`
+
+# Copy an image from us-west-2 to us-east-1
+
+$ curl -k -d '{"Size":30,"VolumeType":"gp2","Encrypted":false}' \
+  "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/create-volume?env_id=1&region=us-west-2&availability_zone=us-west-2a"
 
 ```
 
