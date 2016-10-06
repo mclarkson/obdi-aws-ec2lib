@@ -26,6 +26,7 @@ by other plugins.
 
 [attach-volume](#attach-volume)<br>
 [copy-image](#copy-image)<br>
+[copy-snapshot](#copy-snapshot)<br>
 [create-image](#create-image)<br>
 [create-snapshot](#create-snapshot)<br>
 [create-volume](#create-volume)<br>
