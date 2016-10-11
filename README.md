@@ -59,6 +59,8 @@ Supported POST data JSON parameters:
     VolumeId   string
 ```
 
+Example:
+
 ```
 # Log in
 
@@ -92,6 +94,8 @@ Supported POST data JSON parameters:
     Encrypted     bool    // Specifies whether the destination snapshots of the copied image should be encrypted.
     KmsKeyId      string  // The full ARN of the AWS Key Management Service (AWS KMS) CMK to use when encrypting the snapshots
 ```
+
+Example:
 
 ```
 # Log in
@@ -136,6 +140,8 @@ Supported POST data JSON parameters:
     KmsKeyId          string  // The full ARN of the AWS Key Management Service (AWS KMS)
                               //  CMK to use when encrypting the snapshots
 ```
+
+Example:
 
 ```
 # Log in
@@ -187,6 +193,8 @@ Supported POST data JSON parameters:
     }]
 ```
 
+Example:
+
 ```
 # Log in
 
@@ -219,6 +227,8 @@ Supported POST data JSON parameters:
     VolumeId    string  // VolumeId to take a snapshot of.
     DryRun      bool
 ```
+
+Example:
 
 ```
 # Log in
@@ -258,6 +268,8 @@ Supported POST data JSON parameters:
     VolumeType string // gp2, io1, st1, sc1 or standard
 ```
 
+Example:
+
 ```
 # Log in
 
@@ -285,6 +297,8 @@ Supported POST data JSON parameters:
     DryRun     bool
     SnapshotId   string
 ```
+
+Example:
 
 ```
 # Log in
@@ -314,6 +328,8 @@ Supported POST data JSON parameters:
     VolumeId   string
 ```
 
+Example:
+
 ```
 # Log in
 
@@ -333,6 +349,8 @@ $ curl -k -d '{"DryRun":false,"VolumeId":"vol-c5e13a4d"}' \
 
 Get the status of an availability zone.
 
+Example:
+
 ```
 # Log in
 
@@ -348,6 +366,8 @@ $ curl -k "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-availabili
 ```
 
 ### <a name="describe-instances"></a>describe-instances
+
+Example:
 
 ```
 # Log in
@@ -380,6 +400,8 @@ The filter name instance-id was used above. A list of all filter names are at:
   https://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#DescribeInstancesInput
 
 ### <a name="describe-regions"></a>describe-regions
+
+Example:
 
 ```
 # Log in
@@ -432,6 +454,8 @@ Filter by status completed or error (but not pending status):
 Filter by 3 'volume-id's that the snapshot is for.
 > &filter=volume-id=vol-810baafb,vol-cdea3445,vol-800baafa
 
+Example:
+
 ```
 # Log in
 
@@ -472,6 +496,8 @@ URL parameters:
     region      E.g. us-east-1.
 ```
 
+Example:
+
 ```
 # Log in
 
@@ -506,6 +532,8 @@ URL parameters:
     region      E.g. us-east-1.
 ```
 
+Example:
+
 ```
 # Log in
 
@@ -539,6 +567,8 @@ Supported POST data JSON parameters:
     InstanceId string // The ID of the instance.
     VolumeId   string // The ID of the volume to be detached.
 ```
+
+Example:
 
 ```
 # Log in
@@ -598,6 +628,8 @@ Supported POST data JSON parameters:
         }
     }]
 ```
+
+Example:
 
 ```
 # Log in
@@ -716,6 +748,8 @@ Supported POST data JSON parameters:
         }
     }]
 ```
+
+Example:
 
 ```
 # Log in
