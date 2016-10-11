@@ -159,7 +159,52 @@ $ curl -k -d '
 
 ### <a name="create-image"></a>create-image
 
-UNIMPLEMENTED
+Create an AMI from an Amazon EBS-backed instance.
+
+[CreateImage (go aws sdk)](http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.CreateImage)
+
+```
+Supported POST data JSON parameters:
+
+    Description string  // Description of the snapshot.
+    DryRun      bool    // Check permissions.
+    InstanceId  string  // The ID of the instance.
+    Name        string  // A name for the new image.
+    NoReboot    bool    // If true, the instance will not be shut down before creating the image.
+
+    BlockDeviceMappings [{
+        DeviceName  string  // The device name exposed to the instance (for example, /dev/sdh or xvdh).
+        NoDevice    string  // Suppresses the specified device
+        VirtualName string  // The virtual device name (ephemeralN).
+        Ebs {
+            DeleteOnTermination bool   // Indicates whether the EBS volume is deleted on termination
+            Encrypted           bool   // Indicates whether the EBS volume is encrypted.
+            Iops                int64  // The number of I/O operations per second (IOPS) that the volume supports.
+            SnapshotId          string // The ID of the snapshot.
+            VolumeSize          int64  // The size of the volume, in GiB.
+            VolumeType          string // The volume type: gp2, io1, st1, sc1, or standard.
+        }
+    }]
+```
+
+```
+# Log in
+
+$ ipport="127.0.0.1:443"
+
+$ guid=`curl -ks -d '{"Login":"nomen.nescio","Password":"password"}' \
+  https://$ipport/api/login | grep -o "[a-z0-9][^\"]*"`
+
+# Create an image of instance i-2aa60a32
+
+$ curl -k -d '{
+    "InstanceID":"i-2aa60a32",
+    "Description":"Created by obdi-aws-ec2lib from instance i-2aa60a32",
+    "Name":"New AMI",
+    "NoReboot":true }' \
+  "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/create-image?env_id=2&region=us-west-2"
+
+```
 
 ### <a name="create-snapshot"></a>create-snapshot
 
@@ -512,11 +557,11 @@ $ curl -k -d '{"Device":"/dev/xvdb","InstanceId":"i-d0d63149","VolumeId":"vol-cb
 
 ### <a name="import-image"></a>import-image
 
-UNIMPLEMENTED
+UNIMPLEMENTED - not sure how to do this and for it to make sense when using remotely.
 
 ### <a name="import-instance"></a>import-instance
 
-UNIMPLEMENTED
+UNIMPLEMENTED - not sure how to do this and for it to make sense when using remotely.
 
 ### <a name="register-image"></a>register-image
 
