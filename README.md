@@ -23,12 +23,14 @@ by other plugins.
 # Dev
 
 Each rest end point uses authentication information saved in a per-environment
-json capability object. AWS credentials are never passed to REST end-points.
+json capability object. Clients do not send AWS credentials to REST end-points.
 Ensure that a json object named 'AWS_ACCESS_KEY_ID_1' is present for the
 environment, and that it contains at least:
 ```
 {"aws_access_key_id":"AB...2Q","aws_secret_access_key":"wT...qdS"}
 ```
+When an environment has an AWS_ACCESS_KEY_ID_1 capability, that is all that is
+required to use all REST api functions.
 
 ## REST End Points
 
