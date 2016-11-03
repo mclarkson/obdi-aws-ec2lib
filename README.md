@@ -5,8 +5,6 @@ Library of AWS functions to be called via REST.
 
 # Screenshot
 
-![](images/obdi-aws-ec2lib-small.png?raw=true)
-
 # What is it?
 
 A collection of REST end points that communicate with the AWS API. It is used
