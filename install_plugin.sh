@@ -126,3 +126,25 @@ id=`grep Id $t | grep -Eo "[0-9]+"`
 rm -f -- "$t"
 trap - EXIT
 
+# Now force all the golang plugins to compile...
+
+curl -k "$proto://$ipport/api/admin/$guid/rsyncbackup/settings"
+curl -k "$proto://$ipport/api/admin/$guid/aws-ec2lib/attach-volume"
+curl -k "$proto://$ipport/api/admin/$guid/aws-ec2lib/copy-image"
+curl -k "$proto://$ipport/api/admin/$guid/aws-ec2lib/copy-snapshot"
+curl -k "$proto://$ipport/api/admin/$guid/aws-ec2lib/create-image"
+curl -k "$proto://$ipport/api/admin/$guid/aws-ec2lib/create-snapshot"
+curl -k "$proto://$ipport/api/admin/$guid/aws-ec2lib/create-volume"
+curl -k "$proto://$ipport/api/admin/$guid/aws-ec2lib/delete-snapshot"
+curl -k "$proto://$ipport/api/admin/$guid/aws-ec2lib/delete-volume"
+curl -k "$proto://$ipport/api/admin/$guid/aws-ec2lib/describe-availability-zone"
+curl -k "$proto://$ipport/api/admin/$guid/aws-ec2lib/describe-instances"
+curl -k "$proto://$ipport/api/admin/$guid/aws-ec2lib/describe-regions"
+curl -k "$proto://$ipport/api/admin/$guid/aws-ec2lib/describe-snapshots"
+curl -k "$proto://$ipport/api/admin/$guid/aws-ec2lib/describe-volume-status"
+curl -k "$proto://$ipport/api/admin/$guid/aws-ec2lib/describe-volumes"
+curl -k "$proto://$ipport/api/admin/$guid/aws-ec2lib/detach-volume"
+curl -k "$proto://$ipport/api/admin/$guid/aws-ec2lib/import-image"
+curl -k "$proto://$ipport/api/admin/$guid/aws-ec2lib/import-instance"
+curl -k "$proto://$ipport/api/admin/$guid/aws-ec2lib/register-image"
+curl -k "$proto://$ipport/api/admin/$guid/aws-ec2lib/run-instances"
