@@ -41,6 +41,7 @@ required to use all REST api functions.
 [delete-snapshot](#delete-snapshot)<br>
 [delete-volume](#delete-volume)<br>
 [describe-availability-zone](#describe-availability-zone)<br>
+[describe-images](#describe-images)<br>
 [describe-instances](#describe-instances)<br>
 [describe-regions](#describe-regions)<br>
 [describe-snapshots](#describe-snapshots)<br>
