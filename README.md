@@ -424,12 +424,12 @@ $ curl -k "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-images?env
 # Show the details for two image IDs
 # It is an error to use a non-existent image ID and AWS will complain
 
-$ curl -k "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-snapshots?env_id=2&region=us-west-2&image_id=ami-02d90d62&image_id=ami-1d73d07d"
+$ curl -k "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-images?env_id=2&region=us-west-2&image_id=ami-02d90d62&image_id=ami-1d73d07d"
 
 # Show the details for the same two image IDs using filters instead
 # It is /not/ an error to use a non-existent image ID and AWS will /not/ complain.
 
-$ curl -k "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-snapshots?env_id=2&region=us-west-2&filter=image-id=ami-02d90d62,ami-1d73d07d"
+$ curl -k "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-images?env_id=2&region=us-west-2&filter=image-id=ami-02d90d62,ami-1d73d07d"
 
 ```
 
