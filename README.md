@@ -373,6 +373,66 @@ $ curl -k "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-availabili
 
 ```
 
+### <a name="describe-images"></a>describe-images
+
+Get the details of AMI's, Amazon Machine Images.
+
+http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.DescribeImages
+
+```
+URL parameters:
+
+    dry_run                "true"|"false".
+    filter                 List. E.g. image-id=ami-cd90d5ea.
+                           Use more than once to specify more.
+    executable_users       List. Use more than once to specify more.
+    image_ids              List. Use more than once to specify more.
+                           Omit image_id to get status of all volumes.
+    owners                 List. Use more than once to specify more.
+    env_id                 E.g. 1.
+    region                 E.g. us-east-1.
+```
+
+The filter name image-id was used above. A list of all filter names are at:
+
+  https://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#DescribeImagesInput
+
+To specify multiple values for a filter key use a comma, not more filter entries.
+
+Examples:
+
+Filter by status available or failed (but not pending status):
+> &filter=state=available,failed
+
+Filter by 3 'image-id's that the image is for.
+> &filter=image-id=ami-810baafb,ami-cdea3445,ami-800baafa
+
+Example:
+
+```
+# Log in
+
+$ ipport="127.0.0.1:443"
+
+$ guid=`curl -ks -d '{"Login":"nomen.nescio","Password":"password"}' \
+  https://$ipport/api/login | grep -o "[a-z0-9][^\"]*"`
+
+# Show all AMI images that you're allowed to see
+
+$ curl -k "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-images?env_id=2&region=us-west-2"
+
+# Show the details for two snapshot IDs
+# It is an error to use a non-existent snapshot ID and AWS will complain
+
+$ curl -k "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-snapshots?env_id=2&region=us-west-2&snapshot_id=snap-38cfe109&snapshot_id=snap-7fb97b3b"
+
+# Show the details for the same two snapshot IDs using filters instead
+# It is /not/ an error to use a non-existent snapshot ID and AWS will /not/ complain.
+
+$ curl -k "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-snapshots?env_id=2&region=us-west-2&filter=snapshot-id=snap-38cfe109,snap-7fb97b3b"
+
+```
+
 ### <a name="describe-instances"></a>describe-instances
 
 Example:
