@@ -421,15 +421,15 @@ $ guid=`curl -ks -d '{"Login":"nomen.nescio","Password":"password"}' \
 
 $ curl -k "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-images?env_id=2&region=us-west-2"
 
-# Show the details for two snapshot IDs
-# It is an error to use a non-existent snapshot ID and AWS will complain
+# Show the details for two image IDs
+# It is an error to use a non-existent image ID and AWS will complain
 
-$ curl -k "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-snapshots?env_id=2&region=us-west-2&snapshot_id=snap-38cfe109&snapshot_id=snap-7fb97b3b"
+$ curl -k "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-snapshots?env_id=2&region=us-west-2&image_id=ami-02d90d62&image_id=ami-1d73d07d"
 
-# Show the details for the same two snapshot IDs using filters instead
-# It is /not/ an error to use a non-existent snapshot ID and AWS will /not/ complain.
+# Show the details for the same two image IDs using filters instead
+# It is /not/ an error to use a non-existent image ID and AWS will /not/ complain.
 
-$ curl -k "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-snapshots?env_id=2&region=us-west-2&filter=snapshot-id=snap-38cfe109,snap-7fb97b3b"
+$ curl -k "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-snapshots?env_id=2&region=us-west-2&filter=image-id=ami-02d90d62,ami-1d73d07d"
 
 ```
 
