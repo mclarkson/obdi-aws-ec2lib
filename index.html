@@ -3,85 +3,113 @@
 <head>
   <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.1.25">
   <meta charset="UTF-8">
-  <title>Obdi-aws-ec2lib by mclarkson</title>
+  <title>Obdi by mclarkson</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+  <link rel="stylesheet" type="text/css" href="/stylesheets/normalize.css" media="screen">
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-  <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  <link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css" media="screen">
+  <link rel="stylesheet" type="text/css" href="/stylesheets/github-light.css" media="screen">
+  <script src="http://api.html5media.info/1.1.8/html5media.min.js"></script>
 </head>
 <body>
+    <style>
+    img[alt=screenshot] {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+    }
+    img[alt=smallscreenshot] {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 500px;
+    }
+    </style>
+
   <section class="page-header">
-    <h1 class="project-name">Obdi-aws-ec2lib</h1>
-    <h2 class="project-tagline"></h2>
-    <a href="https://github.com/mclarkson/obdi-aws-ec2lib" class="btn">View on GitHub</a>
-    <a href="http://awstools.obdi.io" class="btn">Parent Repository</a>
-    <a href="http://obdi.io" class="btn">Obdi Home Page</a>
-    <!--
-    <a href="https://github.com/mclarkson/obdi-aws-ec2lib/zipball/master" class="btn">Download .zip</a>
-    <a href="https://github.com/mclarkson/obdi-aws-ec2lib/tarball/master" class="btn">Download .tar.gz</a>
-    -->
+    <h1 class="project-name">{{NAME}}</h1>
+    <h2 class="project-tagline">{{TAGLINE}}</h2>
+    <a href= "http://obdi.io/" class="btn">Back to Obdi</a>
+    <a href= "https://github.com/mclarkson/obdi/blob/master/{{MDNAME}}" class="btn">View Source</a>
   </section>
   <section class="main-content">
-    <h1><a id="obdi-aws-ec2lib" class="anchor" href="#obdi-aws-ec2lib" aria-hidden="true"></a>obdi-aws-ec2lib</h1>
-    <p>Library of AWS functions to be called via REST.</p>
-    <h1><a id="todo" class="anchor" href="#todo" aria-hidden="true"></a>Todo</h1>
-    <h1><a id="screenshot" class="anchor" href="#screenshot" aria-hidden="true"></a>Screenshot</h1>
-    <!--<p><img src="images/obdi-aws-ec2lib-small.png?raw=true" alt=""></p>-->
-    <h1><a id="what-is-it" class="anchor" href="#what-is-it" aria-hidden="true"></a>What is it?</h1>
-    <p>A collection of REST end points that communicate with the AWS API. It is used by other plugins.</p>
-    <h1><a id="installation" class="anchor" href="#installation" aria-hidden="true"></a>Installation</h1>
-    <h2><a id="installing-the-plugin" class="anchor" href="#installing-the-plugin" aria-hidden="true"></a>Installing
-    the plugin</h2>
-    <ul>
-      <li>Log into the admin interface, 'https://ObdiHost/manager/admin'.</li>
-      <li>In Plugins -&gt; Manage Repositories add, '<a href=
-      "https://github.com/mclarkson/obdi-awstools-repository.git">https://github.com/mclarkson/obdi-awstools-repository.git</a>'
-      </li>
-      <li>In Plugins -&gt; Add Plugin, choose 'aws-ec2lib' and Install.</li>
-    </ul>
-    <h1><a id="dev" class="anchor" href="#dev" aria-hidden="true"></a>Dev</h1>
-    <p>Each REST end-point uses authentication information saved in a per-environment json capability object. Clients
-    do not send AWS credentials to REST end-points. Ensure that a json object named 'AWS_ACCESS_KEY_ID_1' is present
-    for the environment, and that it contains at least:</p>
-    <pre><code>{"aws_access_key_id":"AB...2Q","aws_secret_access_key":"wT...qdS"}
-</code></pre>
-    <p>When an environment has an AWS_ACCESS_KEY_ID_1 capability, that is all that is required to use all REST api
-    functions.</p>
-    <h2><a id="rest-end-points" class="anchor" href="#rest-end-points" aria-hidden="true"></a>REST End Points</h2>
-    <p><a href="#attach-volume">attach-volume</a><br>
-    <a href="#copy-image">copy-image</a><br>
-    <a href="#copy-snapshot">copy-snapshot</a><br>
-    <a href="#create-image">create-image</a><br>
-    <a href="#create-snapshot">create-snapshot</a><br>
-    <a href="#create-volume">create-volume</a><br>
-    <a href="#delete-snapshot">delete-snapshot</a><br>
-    <a href="#delete-volume">delete-volume</a><br>
-    <a href="#describe-availability-zone">describe-availability-zone</a><br>
-    <a href="#describe-instances">describe-instances</a><br>
-    <a href="#describe-regions">describe-regions</a><br>
-    <a href="#describe-snapshots">describe-snapshots</a><br>
-    <a href="#describe-volume-status">describe-volume-status</a><br>
-    <a href="#describe-volumes">describe-volumes</a><br>
-    <a href="#detach-volume">detach-volume</a><br>
-    <a href="#import-image">import-image</a><br>
-    <a href="#import-instance">import-instance</a><br>
-    <a href="#register-image">register-image</a><br>
-    <a href="#run-instances">run-instances</a></p>
-    <h3><a id="attach-volume" class="anchor" href="#attach-volume" aria-hidden="true"></a><a name="attach-volume" id=
-    "attach-volume"></a>attach-volume</h3>
-    <p>Attach a volume to a running or stopped instance.</p>
-    <p><a href=
-    "http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.AttachVolume">http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.AttachVolume</a></p>
-    <pre><code>Supported POST data JSON parameters:
+<h1>obdi-aws-ec2lib</h1>
+
+<p>Library of AWS functions to be called via REST.</p>
+
+<h1>Todo</h1>
+
+<h1>Screenshot</h1>
+
+<h1>What is it?</h1>
+
+<p>A collection of REST end points that communicate with the AWS API. It is used
+by other plugins.</p>
+
+<h1>Installation</h1>
+
+<h2>Installing the plugin</h2>
+
+<ul>
+<li>Log into the admin interface, &lsquo;https://ObdiHost/manager/admin&rsquo;.</li>
+<li>In Plugins -> Manage Repositories add, &lsquo;https://github.com/mclarkson/obdi-awstools-repository.git&rsquo;</li>
+<li>In Plugins -> Add Plugin, choose &lsquo;aws-ec2lib&rsquo; and Install.</li>
+</ul>
+
+
+<h1>Dev</h1>
+
+<p>Each REST end-point uses authentication information saved in a per-environment
+json capability object. Clients do not send AWS credentials to REST end-points.
+Ensure that a json object named &lsquo;AWS_ACCESS_KEY_ID_1&rsquo; is present for the
+environment, and that it contains at least:
+<code>
+{"aws_access_key_id":"AB...2Q","aws_secret_access_key":"wT...qdS"}
+</code>
+When an environment has an AWS_ACCESS_KEY_ID_1 capability, that is all that is
+required to use all REST api functions.</p>
+
+<h2>REST End Points</h2>
+
+<p><a href="#attach-volume">attach-volume</a><br>
+<a href="#copy-image">copy-image</a><br>
+<a href="#copy-snapshot">copy-snapshot</a><br>
+<a href="#create-image">create-image</a><br>
+<a href="#create-snapshot">create-snapshot</a><br>
+<a href="#create-volume">create-volume</a><br>
+<a href="#delete-snapshot">delete-snapshot</a><br>
+<a href="#delete-volume">delete-volume</a><br>
+<a href="#describe-availability-zone">describe-availability-zone</a><br>
+<a href="#describe-images">describe-images</a><br>
+<a href="#describe-instances">describe-instances</a><br>
+<a href="#describe-regions">describe-regions</a><br>
+<a href="#describe-snapshots">describe-snapshots</a><br>
+<a href="#describe-volume-status">describe-volume-status</a><br>
+<a href="#describe-volumes">describe-volumes</a><br>
+<a href="#detach-volume">detach-volume</a><br>
+<a href="#import-image">import-image</a><br>
+<a href="#import-instance">import-instance</a><br>
+<a href="#register-image">register-image</a><br>
+<a href="#run-instances">run-instances</a></p>
+
+<h3><a name="attach-volume"></a>attach-volume</h3>
+
+<p>Attach a volume to a running or stopped instance.</p>
+
+<p>http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.AttachVolume</p>
+
+<pre><code>Supported POST data JSON parameters:
 
     Device     string
     DryRun     bool
     InstanceId string
     VolumeId   string
 </code></pre>
-    <p>Example:</p>
-    <pre><code># Log in
+
+<p>Example:</p>
+
+<pre><code># Log in
 
 $ ipport="127.0.0.1:443"
 
@@ -92,13 +120,15 @@ $ guid=`curl -ks -d '{"Login":"nomen.nescio","Password":"password"}' \
 
 $ curl -k -d '{"Device":"/dev/sdb","InstanceId":"i-xxxxxx","VolumeId":"vol-xxxxx"}' \
   "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/attach-volume?env_id=1&amp;region=us-west-2"
-
 </code></pre>
-    <h3><a id="copy-image" class="anchor" href="#copy-image" aria-hidden="true"></a><a name="copy-image" id=
-    "copy-image"></a>copy-image</h3>
-    <p>Copy an AMI to a different region.</p>
-    <p><a href="http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.CopyImage">CopyImage (go aws sdk)</a></p>
-    <pre><code>Supported POST data JSON parameters:
+
+<h3><a name="copy-image"></a>copy-image</h3>
+
+<p>Copy an AMI to a different region.</p>
+
+<p><a href="http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.CopyImage">CopyImage (go aws sdk)</a></p>
+
+<pre><code>Supported POST data JSON parameters:
 
     Name          string  // The name of the new AMI in the destination region.
     SourceImageId string  // The ID of the AMI to copy.
@@ -109,8 +139,10 @@ $ curl -k -d '{"Device":"/dev/sdb","InstanceId":"i-xxxxxx","VolumeId":"vol-xxxxx
     Encrypted     bool    // Specifies whether the destination snapshots of the copied image should be encrypted.
     KmsKeyId      string  // The full ARN of the AWS Key Management Service (AWS KMS) CMK to use when encrypting the snapshots
 </code></pre>
-    <p>Example:</p>
-    <pre><code># Log in
+
+<p>Example:</p>
+
+<pre><code># Log in
 
 $ ipport="127.0.0.1:443"
 
@@ -128,12 +160,14 @@ $ curl -k -d '
 }' \
   "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/copy-image?env_id=2&amp;region=us-east-1"
 </code></pre>
-    <h3><a id="copy-snapshot" class="anchor" href="#copy-snapshot" aria-hidden="true"></a><a name="copy-snapshot" id=
-    "copy-snapshot"></a>copy-snapshot</h3>
-    <p>Copy a snapshot to the same or different region.</p>
-    <p><a href="http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.CopySnapshot">CopySnapshot (go aws
-    sdk)</a></p>
-    <pre><code>Supported POST data JSON parameters:
+
+<h3><a name="copy-snapshot"></a>copy-snapshot</h3>
+
+<p>Copy a snapshot to the same or different region.</p>
+
+<p><a href="http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.CopySnapshot">CopySnapshot (go aws sdk)</a></p>
+
+<pre><code>Supported POST data JSON parameters:
 
     SourceSnapshotId  string  // The ID of the EBS Snapshot to copy.
     SourceRegion      string  // The name of the region that contains the snapshot to copy.
@@ -149,8 +183,10 @@ $ curl -k -d '
     KmsKeyId          string  // The full ARN of the AWS Key Management Service (AWS KMS)
                               //  CMK to use when encrypting the snapshots
 </code></pre>
-    <p>Example:</p>
-    <pre><code># Log in
+
+<p>Example:</p>
+
+<pre><code># Log in
 
 $ ipport="127.0.0.1:443"
 
@@ -166,14 +202,15 @@ $ curl -k -d '
     "Description":"Snapshot copied from us-west-2"
 }' \
   "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/copy-snapshot?env_id=2&amp;region=us-east-1"
-
 </code></pre>
-    <h3><a id="create-image" class="anchor" href="#create-image" aria-hidden="true"></a><a name="create-image" id=
-    "create-image"></a>create-image</h3>
-    <p>Create an AMI from an Amazon EBS-backed instance.</p>
-    <p><a href="http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.CreateImage">CreateImage (go aws
-    sdk)</a></p>
-    <pre><code>Supported POST data JSON parameters:
+
+<h3><a name="create-image"></a>create-image</h3>
+
+<p>Create an AMI from an Amazon EBS-backed instance.</p>
+
+<p><a href="http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.CreateImage">CreateImage (go aws sdk)</a></p>
+
+<pre><code>Supported POST data JSON parameters:
 
     Description string  // Description of the snapshot.
     DryRun      bool    // Check permissions.
@@ -195,8 +232,10 @@ $ curl -k -d '
         }
     }]
 </code></pre>
-    <p>Example:</p>
-    <pre><code># Log in
+
+<p>Example:</p>
+
+<pre><code># Log in
 
 $ ipport="127.0.0.1:443"
 
@@ -211,21 +250,24 @@ $ curl -k -d '{
     "Name":"New AMI",
     "NoReboot":true }' \
   "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/create-image?env_id=2&amp;region=us-west-2"
-
 </code></pre>
-    <h3><a id="create-snapshot" class="anchor" href="#create-snapshot" aria-hidden="true"></a><a name="create-snapshot"
-    id="create-snapshot"></a>create-snapshot</h3>
-    <p>Create a snapshot, in S3, of a volume.</p>
-    <p><a href="http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.CreateSnapshot">CreateSnapshot (go aws
-    sdk)</a></p>
-    <pre><code>Supported POST data JSON parameters:
+
+<h3><a name="create-snapshot"></a>create-snapshot</h3>
+
+<p>Create a snapshot, in S3, of a volume.</p>
+
+<p><a href="http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.CreateSnapshot">CreateSnapshot (go aws sdk)</a></p>
+
+<pre><code>Supported POST data JSON parameters:
 
     Description string  // Description of the snapshot.
     VolumeId    string  // VolumeId to take a snapshot of.
     DryRun      bool
 </code></pre>
-    <p>Example:</p>
-    <pre><code># Log in
+
+<p>Example:</p>
+
+<pre><code># Log in
 
 $ ipport="127.0.0.1:443"
 
@@ -238,16 +280,19 @@ $ curl -k -d '{ "DryRun":false,
                 "Description":"Created by obdi-aws-p2ec2 for vol-cb5f1166",
                 "VolumeId":"vol-cb5f1166"}' \
   "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/create-snapshot?env_id=1"
-
 </code></pre>
-    <h3><a id="create-volume" class="anchor" href="#create-volume" aria-hidden="true"></a><a name="create-volume" id=
-    "create-volume"></a>create-volume</h3>
-    <p>Create a volume in an availability zone.</p>
-    <p><a href="http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.CreateVolume">CreateVolume (go aws
-    sdk)</a></p>
-    <p><a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumes.html">EBS Volumes</a></p>
-    <p><a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/device_naming.html">Device Naming</a></p>
-    <pre><code>Supported POST data JSON parameters:
+
+<h3><a name="create-volume"></a>create-volume</h3>
+
+<p>Create a volume in an availability zone.</p>
+
+<p><a href="http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.CreateVolume">CreateVolume (go aws sdk)</a></p>
+
+<p><a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumes.html">EBS Volumes</a></p>
+
+<p><a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/device_naming.html">Device Naming</a></p>
+
+<pre><code>Supported POST data JSON parameters:
 
     Encrypted  bool
     Iops       int64  // 100 to 20000 for io1
@@ -256,8 +301,10 @@ $ curl -k -d '{ "DryRun":false,
     SnapshotId string
     VolumeType string // gp2, io1, st1, sc1 or standard
 </code></pre>
-    <p>Example:</p>
-    <pre><code># Log in
+
+<p>Example:</p>
+
+<pre><code># Log in
 
 $ ipport="127.0.0.1:443"
 
@@ -268,20 +315,23 @@ $ guid=`curl -ks -d '{"Login":"nomen.nescio","Password":"password"}' \
 
 $ curl -k -d '{"Size":30,"VolumeType":"gp2","Encrypted":false}' \
   "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/create-volume?env_id=1&amp;region=us-west-2&amp;availability_zone=us-west-2a"
-
 </code></pre>
-    <h3><a id="delete-snapshot" class="anchor" href="#delete-snapshot" aria-hidden="true"></a><a name="delete-snapshot"
-    id="delete-snapshot"></a>delete-snapshot</h3>
-    <p>Delete a snapshot from a region.</p>
-    <p><a href="http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.DeleteSnapshot">DeleteSnapshot (go aws
-    sdk)</a></p>
-    <pre><code>Supported POST data JSON parameters:
+
+<h3><a name="delete-snapshot"></a>delete-snapshot</h3>
+
+<p>Delete a snapshot from a region.</p>
+
+<p><a href="http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.DeleteSnapshot">DeleteSnapshot (go aws sdk)</a></p>
+
+<pre><code>Supported POST data JSON parameters:
 
     DryRun     bool
     SnapshotId   string
 </code></pre>
-    <p>Example:</p>
-    <pre><code># Log in
+
+<p>Example:</p>
+
+<pre><code># Log in
 
 $ ipport="127.0.0.1:443"
 
@@ -292,20 +342,23 @@ $ guid=`curl -ks -d '{"Login":"nomen.nescio","Password":"password"}' \
 
 $ curl -k -d '{"DryRun":false,"SnapshotId":"snap-c5e13a4d"}' \
   "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/delete-snapshot?env_id=1&amp;region=us-east-1"
-
 </code></pre>
-    <h3><a id="delete-volume" class="anchor" href="#delete-volume" aria-hidden="true"></a><a name="delete-volume" id=
-    "delete-volume"></a>delete-volume</h3>
-    <p>Delete a volume from a region.</p>
-    <p><a href="http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.DeleteVolume">DeleteVolume (go aws
-    sdk)</a></p>
-    <pre><code>Supported POST data JSON parameters:
+
+<h3><a name="delete-volume"></a>delete-volume</h3>
+
+<p>Delete a volume from a region.</p>
+
+<p><a href="http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.DeleteVolume">DeleteVolume (go aws sdk)</a></p>
+
+<pre><code>Supported POST data JSON parameters:
 
     DryRun     bool
     VolumeId   string
 </code></pre>
-    <p>Example:</p>
-    <pre><code># Log in
+
+<p>Example:</p>
+
+<pre><code># Log in
 
 $ ipport="127.0.0.1:443"
 
@@ -316,13 +369,15 @@ $ guid=`curl -ks -d '{"Login":"nomen.nescio","Password":"password"}' \
 
 $ curl -k -d '{"DryRun":false,"VolumeId":"vol-c5e13a4d"}' \
   "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/delete-volume?env_id=1&amp;region=us-west-2"
-
 </code></pre>
-    <h3><a id="describe-availability-zone" class="anchor" href="#describe-availability-zone" aria-hidden=
-    "true"></a><a name="describe-availability-zone" id="describe-availability-zone"></a>describe-availability-zone</h3>
-    <p>Get the status of an availability zone.</p>
-    <p>Example:</p>
-    <pre><code># Log in
+
+<h3><a name="describe-availability-zone"></a>describe-availability-zone</h3>
+
+<p>Get the status of an availability zone.</p>
+
+<p>Example:</p>
+
+<pre><code># Log in
 
 $ ipport="127.0.0.1:443"
 
@@ -332,12 +387,72 @@ $ guid=`curl -ks -d '{"Login":"nomen.nescio","Password":"password"}' \
 # Get status of availability zone us-east-1c
 
 $ curl -k "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-availability-zone?env_id=1&amp;region=us-east-1&amp;availability_zone=us-east-1c"
-
 </code></pre>
-    <h3><a id="describe-instances" class="anchor" href="#describe-instances" aria-hidden="true"></a><a name=
-    "describe-instances" id="describe-instances"></a>describe-instances</h3>
-    <p>Example:</p>
-    <pre><code># Log in
+
+<h3><a name="describe-images"></a>describe-images</h3>
+
+<p>Get the details of AMI&rsquo;s, Amazon Machine Images.</p>
+
+<p>http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.DescribeImages</p>
+
+<pre><code>URL parameters:
+
+    dry_run                "true"|"false".
+    filter                 List. E.g. image-id=ami-cd90d5ea.
+                           Use more than once to specify more.
+    executable_users       List. Use more than once to specify more.
+    image_ids              List. Use more than once to specify more.
+                           Omit image_id to get status of all volumes.
+    owners                 List. Use more than once to specify more.
+    env_id                 E.g. 1.
+    region                 E.g. us-east-1.
+</code></pre>
+
+<p>The filter name image-id was used above. A list of all filter names are at:</p>
+
+<p>  https://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#DescribeImagesInput</p>
+
+<p>To specify multiple values for a filter key use a comma, not more filter entries.</p>
+
+<p>Examples:</p>
+
+<p>Filter by status available or failed (but not pending status):</p>
+
+<blockquote><p>&amp;filter=state=available,failed</p></blockquote>
+
+<p>Filter by 3 &lsquo;image-id&rsquo;s that the image is for.</p>
+
+<blockquote><p>&amp;filter=image-id=ami-810baafb,ami-cdea3445,ami-800baafa</p></blockquote>
+
+<p>Example:</p>
+
+<pre><code># Log in
+
+$ ipport="127.0.0.1:443"
+
+$ guid=`curl -ks -d '{"Login":"nomen.nescio","Password":"password"}' \
+  https://$ipport/api/login | grep -o "[a-z0-9][^\"]*"`
+
+# Show all AMI images that you're allowed to see
+
+$ curl -k "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-images?env_id=2&amp;region=us-west-2"
+
+# Show the details for two image IDs
+# It is an error to use a non-existent image ID and AWS will complain
+
+$ curl -k "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-images?env_id=2&amp;region=us-west-2&amp;image_id=ami-02d90d62&amp;image_id=ami-1d73d07d"
+
+# Show the details for the same two image IDs using filters instead
+# It is /not/ an error to use a non-existent image ID and AWS will /not/ complain.
+
+$ curl -k "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-images?env_id=2&amp;region=us-west-2&amp;filter=image-id=ami-02d90d62,ami-1d73d07d"
+</code></pre>
+
+<h3><a name="describe-instances"></a>describe-instances</h3>
+
+<p>Example:</p>
+
+<pre><code># Log in
 
 $ ipport="127.0.0.1:443"
 
@@ -359,15 +474,17 @@ $ curl -k "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-instances?
 # Filter on 2 instance-ids
 
 $ curl -k "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-instances?env_id=1&amp;filter=instance-id=i-e12hb395&amp;filter=instance-id=i-7gbd59fe"
-
 </code></pre>
-    <p>The filter name instance-id was used above. A list of all filter names are at:</p>
-    <p><a href=
-    "https://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#DescribeInstancesInput">https://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#DescribeInstancesInput</a></p>
-    <h3><a id="describe-regions" class="anchor" href="#describe-regions" aria-hidden="true"></a><a name=
-    "describe-regions" id="describe-regions"></a>describe-regions</h3>
-    <p>Example:</p>
-    <pre><code># Log in
+
+<p>The filter name instance-id was used above. A list of all filter names are at:</p>
+
+<p>  https://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#DescribeInstancesInput</p>
+
+<h3><a name="describe-regions"></a>describe-regions</h3>
+
+<p>Example:</p>
+
+<pre><code># Log in
 
 $ ipport="127.0.0.1:443"
 
@@ -378,14 +495,15 @@ $ guid=`curl -ks -d '{"Login":"nomen.nescio","Password":"password"}' \
 # This does not call out to AWS, it uses the goamz library.
 
 $ curl -k https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-regions
-
 </code></pre>
-    <h3><a id="describe-snapshots" class="anchor" href="#describe-snapshots" aria-hidden="true"></a><a name=
-    "describe-snapshots" id="describe-snapshots"></a>describe-snapshots</h3>
-    <p>Get the details of EBS snapshot(s).</p>
-    <p><a href=
-    "http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.DescribeSnapshots">http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.DescribeSnapshots</a></p>
-    <pre><code>URL parameters:
+
+<h3><a name="describe-snapshots"></a>describe-snapshots</h3>
+
+<p>Get the details of EBS snapshot(s).</p>
+
+<p>http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.DescribeSnapshots</p>
+
+<pre><code>URL parameters:
 
     dry_run                "true"|"false".
     filter                 List. E.g. snapshot-id=snap-cd90d5ea.
@@ -399,21 +517,26 @@ $ curl -k https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-regions
     env_id                 E.g. 1.
     region                 E.g. us-east-1.
 </code></pre>
-    <p>The filter name snapshot-id was used above. A list of all filter names are at:</p>
-    <p><a href=
-    "https://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#DescribeSnapshotsInput">https://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#DescribeSnapshotsInput</a></p>
-    <p>To specify multiple values for a filter key use a comma, not more filter entries.</p>
-    <p>Examples:</p>
-    <p>Filter by status completed or error (but not pending status):</p>
-    <blockquote>
-      <p>&amp;filter=status=completed,error</p>
-    </blockquote>
-    <p>Filter by 3 'volume-id's that the snapshot is for.</p>
-    <blockquote>
-      <p>&amp;filter=volume-id=vol-810baafb,vol-cdea3445,vol-800baafa</p>
-    </blockquote>
-    <p>Example:</p>
-    <pre><code># Log in
+
+<p>The filter name snapshot-id was used above. A list of all filter names are at:</p>
+
+<p>  https://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#DescribeSnapshotsInput</p>
+
+<p>To specify multiple values for a filter key use a comma, not more filter entries.</p>
+
+<p>Examples:</p>
+
+<p>Filter by status completed or error (but not pending status):</p>
+
+<blockquote><p>&amp;filter=status=completed,error</p></blockquote>
+
+<p>Filter by 3 &lsquo;volume-id&rsquo;s that the snapshot is for.</p>
+
+<blockquote><p>&amp;filter=volume-id=vol-810baafb,vol-cdea3445,vol-800baafa</p></blockquote>
+
+<p>Example:</p>
+
+<pre><code># Log in
 
 $ ipport="127.0.0.1:443"
 
@@ -433,14 +556,15 @@ $ curl -k "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-snapshots?
 # It is /not/ an error to use a non-existent snapshot ID and AWS will /not/ complain.
 
 $ curl -k "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-snapshots?env_id=2&amp;region=us-west-2&amp;filter=snapshot-id=snap-38cfe109,snap-7fb97b3b"
-
 </code></pre>
-    <h3><a id="describe-volumes" class="anchor" href="#describe-volumes" aria-hidden="true"></a><a name=
-    "describe-volumes" id="describe-volumes"></a>describe-volumes</h3>
-    <p>Get the details of EBS volume(s).</p>
-    <p><a href=
-    "http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.DescribeVolumes">http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.DescribeVolumes</a></p>
-    <pre><code>URL parameters:
+
+<h3><a name="describe-volumes"></a>describe-volumes</h3>
+
+<p>Get the details of EBS volume(s).</p>
+
+<p>http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.DescribeVolumes</p>
+
+<pre><code>URL parameters:
 
     dry_run     "true"|"false".
     volume_id   E.g. vol-3af379e. Use more than once to specify more.
@@ -448,8 +572,10 @@ $ curl -k "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-snapshots?
     env_id      E.g. 1.
     region      E.g. us-east-1.
 </code></pre>
-    <p>Example:</p>
-    <pre><code># Log in
+
+<p>Example:</p>
+
+<pre><code># Log in
 
 $ ipport="127.0.0.1:443"
 
@@ -463,14 +589,15 @@ $ curl -k "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-volumes?en
 # Get details of volume vol-3af379e
 
 $ curl -k "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-volumes?env_id=1&amp;region=us-east-1&amp;volume_id=vol-3af379e"
-
 </code></pre>
-    <h3><a id="describe-volume-status" class="anchor" href="#describe-volume-status" aria-hidden="true"></a><a name=
-    "describe-volume-status" id="describe-volume-status"></a>describe-volume-status</h3>
-    <p>Get the status of an EBS volume.</p>
-    <p><a href=
-    "http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.DescribeVolumeStatus">http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.DescribeVolumeStatus</a></p>
-    <pre><code>URL parameters:
+
+<h3><a name="describe-volume-status"></a>describe-volume-status</h3>
+
+<p>Get the status of an EBS volume.</p>
+
+<p>http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.DescribeVolumeStatus</p>
+
+<pre><code>URL parameters:
 
     dry_run     "true"|"false".
     volume_id   E.g. vol-3af379e. Use more than once to specify more.
@@ -478,8 +605,10 @@ $ curl -k "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-volumes?en
     env_id      E.g. 1.
     region      E.g. us-east-1.
 </code></pre>
-    <p>Example:</p>
-    <pre><code># Log in
+
+<p>Example:</p>
+
+<pre><code># Log in
 
 $ ipport="127.0.0.1:443"
 
@@ -493,14 +622,15 @@ $ curl -k "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-volume-sta
 # Get status of volume vol-3af379e
 
 $ curl -k "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-volume-status?env_id=1&amp;region=us-east-1&amp;volume_id=vol-3af379e"
-
 </code></pre>
-    <h3><a id="detach-volume" class="anchor" href="#detach-volume" aria-hidden="true"></a><a name="detach-volume" id=
-    "detach-volume"></a>detach-volume</h3>
-    <p>Detach a volume from an instance.</p>
-    <p><a href="http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.DetachVolume">DetachVolume (go aws
-    sdk)</a></p>
-    <pre><code>Supported POST data JSON parameters:
+
+<h3><a name="detach-volume"></a>detach-volume</h3>
+
+<p>Detach a volume from an instance.</p>
+
+<p><a href="http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.DetachVolume">DetachVolume (go aws sdk)</a></p>
+
+<pre><code>Supported POST data JSON parameters:
 
     DryRun     bool
     Device     string // The device name.
@@ -508,8 +638,10 @@ $ curl -k "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/describe-volume-sta
     InstanceId string // The ID of the instance.
     VolumeId   string // The ID of the volume to be detached.
 </code></pre>
-    <p>Example:</p>
-    <pre><code># Log in
+
+<p>Example:</p>
+
+<pre><code># Log in
 
 $ ipport="127.0.0.1:443"
 
@@ -520,20 +652,23 @@ $ guid=`curl -ks -d '{"Login":"nomen.nescio","Password":"password"}' \
 
 $ curl -k -d '{"Device":"/dev/xvdb","InstanceId":"i-d0d63149","VolumeId":"vol-cb5f1166"}' \
   "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/detach-volume?env_id=1&amp;region=us-west-1"
-
 </code></pre>
-    <h3><a id="import-image" class="anchor" href="#import-image" aria-hidden="true"></a><a name="import-image" id=
-    "import-image"></a>import-image</h3>
-    <p>UNIMPLEMENTED - not sure how to do this and for it to make sense when using remotely.</p>
-    <h3><a id="import-instance" class="anchor" href="#import-instance" aria-hidden="true"></a><a name="import-instance"
-    id="import-instance"></a>import-instance</h3>
-    <p>UNIMPLEMENTED - not sure how to do this and for it to make sense when using remotely.</p>
-    <h3><a id="register-image" class="anchor" href="#register-image" aria-hidden="true"></a><a name="register-image"
-    id="register-image"></a>register-image</h3>
-    <p>Create an AMI from a snapshot.</p>
-    <p><a href="http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.RegisterImage">RegisterImage (go aws
-    sdk)</a></p>
-    <pre><code>Supported POST data JSON parameters:
+
+<h3><a name="import-image"></a>import-image</h3>
+
+<p>UNIMPLEMENTED - not sure how to do this and for it to make sense when using remotely.</p>
+
+<h3><a name="import-instance"></a>import-instance</h3>
+
+<p>UNIMPLEMENTED - not sure how to do this and for it to make sense when using remotely.</p>
+
+<h3><a name="register-image"></a>register-image</h3>
+
+<p>Create an AMI from a snapshot.</p>
+
+<p><a href="http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.RegisterImage">RegisterImage (go aws sdk)</a></p>
+
+<pre><code>Supported POST data JSON parameters:
 
     Name               string  // A name for your AMI.
     Architecture       string
@@ -561,8 +696,10 @@ $ curl -k -d '{"Device":"/dev/xvdb","InstanceId":"i-d0d63149","VolumeId":"vol-cb
         }
     }]
 </code></pre>
-    <p>Example:</p>
-    <pre><code># Log in
+
+<p>Example:</p>
+
+<pre><code># Log in
 
 $ ipport="127.0.0.1:443"
 
@@ -590,14 +727,15 @@ $ curl -k -d '
     ]
 }' \
   "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/register-image?env_id=2&amp;region=us-west-2"
-
 </code></pre>
-    <h3><a id="run-instances" class="anchor" href="#run-instances" aria-hidden="true"></a><a name="run-instances" id=
-    "run-instances"></a>run-instances</h3>
-    <p>Create an Instance from an AMI.</p>
-    <p><a href="http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.RunInstances">RunInstances (go aws
-    sdk)</a></p>
-    <pre><code>Supported POST data JSON parameters:
+
+<h3><a name="run-instances"></a>run-instances</h3>
+
+<p>Create an Instance from an AMI.</p>
+
+<p><a href="http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.RunInstances">RunInstances (go aws sdk)</a></p>
+
+<pre><code>Supported POST data JSON parameters:
 
     AdditionalInfo string  // Reserved.
     ClientToken    string  // Identifier you provide to ensure the idempotency.
@@ -675,8 +813,10 @@ $ curl -k -d '
         }
     }]
 </code></pre>
-    <p>Example:</p>
-    <pre><code># Log in
+
+<p>Example:</p>
+
+<pre><code># Log in
 
 $ ipport="127.0.0.1:443"
 
@@ -713,7 +853,7 @@ $ curl -k -d '
     "InstanceType":"t2.micro",
     "MaxCount":1,
     "MinCount":1,
-    "SecurityGroups":"mainsg"
+    "SecurityGroups":["mainsg"],
     "Placement": {
         "AvailabilityZone":"us-west-2c"
     },
@@ -729,15 +869,7 @@ $ curl -k -d '
     ]
 }' \
   "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/run-instances?env_id=2&amp;region=us-west-2"
-
 </code></pre>
-    <footer class="site-footer">
-      <span class="site-footer-owner"><a href="https://github.com/mclarkson/obdi-aws-ec2lib">Obdi-aws-ec2lib</a> is
-      maintained by <a href="https://github.com/mclarkson">mclarkson</a>.</span> <span class="site-footer-credits">This
-      page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href=
-      "https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason
-      Long</a>.</span>
-    </footer>
-  </section>
+ </section>
 </body>
 </html>
