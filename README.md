@@ -252,7 +252,7 @@ $ guid=`curl -ks -d '{"Login":"nomen.nescio","Password":"password"}' \
 $ curl -k -d '{ "DryRun":false,
                 "Description":"Created by obdi-aws-p2ec2 for vol-cb5f1166",
                 "VolumeId":"vol-cb5f1166"}' \
-  "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/create-snapshot?env_id=1"
+  "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/create-snapshot?env_id=1&region=us-east-1"
 
 ```
 
