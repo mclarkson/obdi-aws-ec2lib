@@ -57,7 +57,7 @@ required to use all REST api functions.
 
 Attach a volume to a running or stopped instance.
 
-http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.AttachVolume
+[AttachVolume (go aws sdk)](http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.AttachVolume)
 
 ```
 Supported POST data JSON parameters:
