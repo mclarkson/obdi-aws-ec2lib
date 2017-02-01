@@ -2,9 +2,9 @@
 
 git checkout master
 F=/var/tmp/build.sh.$$.html
-cp header.frag.html $F
+cp build-docs/header.frag.html $F
 markdown README.md >> $F
-cat footer.frag.html >> $F
+cat build-docs/footer.frag.html >> $F
 git checkout gh-pages
 mv $F index.html
 echo
