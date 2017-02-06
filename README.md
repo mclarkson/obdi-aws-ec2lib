@@ -18,6 +18,8 @@ by other plugins.
 * In Plugins -> Manage Repositories add, 'https://github.com/mclarkson/obdi-awstools-repository.git'
 * In Plugins -> Add Plugin, choose 'aws-ec2lib' and Install.
 
+NOTE: This plugin may take a long time to install since it now pre-compiles all REST end-points!
+
 # Dev
 
 Each REST end-point uses authentication information saved in a per-environment
