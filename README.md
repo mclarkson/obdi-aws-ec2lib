@@ -51,8 +51,8 @@ required to use all REST api functions.
 [import-image](#import-image)<br>
 [import-instance](#import-instance)<br>
 [register-image](#register-image)<br>
-[run-instances](#run-instances)
-[start-instances](#start-instances)
+[run-instances](#run-instances)<br>
+[start-instances](#start-instances)<br>
 [stop-instances](#stop-instances)
 
 ### <a name="attach-volume"></a>attach-volume
