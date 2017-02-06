@@ -52,6 +52,8 @@ required to use all REST api functions.
 [import-instance](#import-instance)<br>
 [register-image](#register-image)<br>
 [run-instances](#run-instances)
+[start-instances](#start-instances)
+[stop-instances](#stop-instances)
 
 ### <a name="attach-volume"></a>attach-volume
 
@@ -874,6 +876,72 @@ $ curl -k -d '
     ]
 }' \
   "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/run-instances?env_id=2&region=us-west-2"
+
+```
+
+### <a name="start-instances"></a>start-instances
+
+Starts an Amazon EBS-backed AMI that was previously stopped.
+
+[StartInstances (go aws sdk)](http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.StartInstances)
+
+```
+Supported POST data JSON parameters:
+
+    AdditionalInfo string     // Reserved.
+    DryRun         bool       // Check permissions.
+    InstanceIds    [ string ] // One or more Instance Ids to start.
+```
+
+Example:
+
+```
+# Log in
+
+$ ipport="127.0.0.1:443"
+
+$ guid=`curl -ks -d '{"Login":"nomen.nescio","Password":"password"}' \
+  https://$ipport/api/login | grep -o "[a-z0-9][^\"]*"`
+
+# Create an image of instance i-2aa60a32
+
+$ curl -k -d '{
+    "InstanceID":["i-2aa60a32"]
+  }' \
+  "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/start-instances?env_id=2&region=us-west-2"
+
+```
+
+### <a name="stop-instances"></a>stop-instances
+
+Stops an Amazon EBS-backed AMI that was previously stopped.
+
+[StopInstances (go aws sdk)](http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.StopInstances)
+
+```
+Supported POST data JSON parameters:
+
+    AdditionalInfo string     // Reserved.
+    DryRun         bool       // Check permissions.
+    InstanceIds    [ string ] // One or more Instance Ids to stop.
+```
+
+Example:
+
+```
+# Log in
+
+$ ipport="127.0.0.1:443"
+
+$ guid=`curl -ks -d '{"Login":"nomen.nescio","Password":"password"}' \
+  https://$ipport/api/login | grep -o "[a-z0-9][^\"]*"`
+
+# Create an image of instance i-2aa60a32
+
+$ curl -k -d '{
+    "InstanceID":["i-2aa60a32"]
+  }' \
+  "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/stop-instances?env_id=2&region=us-west-2"
 
 ```
 
