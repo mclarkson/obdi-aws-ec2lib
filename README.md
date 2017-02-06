@@ -908,7 +908,7 @@ $ guid=`curl -ks -d '{"Login":"nomen.nescio","Password":"password"}' \
 # Create an image of instance i-2aa60a32
 
 $ curl -k -d '{
-    "InstanceID":["i-2aa60a32"]
+    "InstanceIds":["i-2aa60a32"]
   }' \
   "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/start-instances?env_id=2&region=us-west-2"
 
@@ -941,7 +941,7 @@ $ guid=`curl -ks -d '{"Login":"nomen.nescio","Password":"password"}' \
 # Create an image of instance i-2aa60a32
 
 $ curl -k -d '{
-    "InstanceID":["i-2aa60a32"]
+    "InstanceIds":["i-2aa60a32"]
   }' \
   "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/stop-instances?env_id=2&region=us-west-2"
 
