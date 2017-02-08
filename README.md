@@ -947,3 +947,35 @@ $ curl -k -d '{
 
 ```
 
+### <a name="terminate-instances"></a>terminate-instances
+
+Terminates an Amazon EBS-backed AMI that was previously stopped.
+
+[TerminateInstances (go aws sdk)](http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.TerminateInstances)
+
+```
+Supported POST data JSON parameters:
+
+    DryRun         bool       // Check permissions.
+    InstanceIds    [ string ] // One or more Instance Ids to terminate.
+```
+
+Example:
+
+```
+# Log in
+
+$ ipport="127.0.0.1:443"
+
+$ guid=`curl -ks -d '{"Login":"nomen.nescio","Password":"password"}' \
+  https://$ipport/api/login | grep -o "[a-z0-9][^\"]*"`
+
+# Create an image of instance i-2aa60a32
+
+$ curl -k -d '{
+    "InstanceIds":["i-2aa60a32"]
+  }' \
+  "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/terminate-instances?env_id=2&region=us-west-2"
+
+```
+
