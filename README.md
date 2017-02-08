@@ -56,6 +56,7 @@ required to use all REST api functions.
 [run-instances](#run-instances)<br>
 [start-instances](#start-instances)<br>
 [stop-instances](#stop-instances)
+[terminate-instances](#terminate-instances)
 
 ### <a name="attach-volume"></a>attach-volume
 
