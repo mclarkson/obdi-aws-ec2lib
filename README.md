@@ -39,6 +39,7 @@ required to use all REST api functions.
 [copy-snapshot](#copy-snapshot)<br>
 [create-image](#create-image)<br>
 [create-snapshot](#create-snapshot)<br>
+[create-tags](#create-tags)<br>
 [create-volume](#create-volume)<br>
 [delete-snapshot](#delete-snapshot)<br>
 [delete-volume](#delete-volume)<br>
@@ -258,6 +259,44 @@ $ curl -k -d '{ "DryRun":false,
                 "Description":"Created by obdi-aws-p2ec2 for vol-cb5f1166",
                 "VolumeId":"vol-cb5f1166"}' \
   "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/create-snapshot?env_id=1&region=us-east-1"
+
+```
+
+### <a name="create-tags"></a>create-tags
+
+Adds or overwrites one or more tags for the specified Amazon EC2 resource or
+resources. Each resource can have a maximum of 50 tags. Each tag consists of a
+key and optional value. Tag keys must be unique per resource.
+
+[CreateTags (go aws sdk)](http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.CreateTags)
+
+IN PROGRESS ...
+
+```
+Supported POST data JSON parameters:
+
+    Encrypted  bool
+    Iops       int64  // 100 to 20000 for io1
+    KmsKeyId   string // For encrypted volume
+    Size       int64  // In GB
+    SnapshotId string
+    VolumeType string // gp2, io1, st1, sc1 or standard
+```
+
+Example:
+
+```
+# Log in
+
+$ ipport="127.0.0.1:443"
+
+$ guid=`curl -ks -d '{"Login":"nomen.nescio","Password":"password"}' \
+  https://$ipport/api/login | grep -o "[a-z0-9][^\"]*"`
+
+# Create a 30GB gp2 volume in availability zone us-west-2a
+
+$ curl -k -d '{"Size":30,"VolumeType":"gp2","Encrypted":false}' \
+  "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/create-volume?env_id=1&region=us-west-2&availability_zone=us-west-2a"
 
 ```
 
