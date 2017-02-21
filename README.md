@@ -299,8 +299,8 @@ $ curl -k -d '{
     ],
     "Tags":[
         {
-            "Key":"testtagkey",
-            "Value":"testtagvalue"
+            "Key":"TestTag",
+            "Value":"TestValue"
         }
     ]
   }' \
