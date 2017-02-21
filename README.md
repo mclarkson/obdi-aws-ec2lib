@@ -275,12 +275,9 @@ IN PROGRESS ...
 ```
 Supported POST data JSON parameters:
 
-    Encrypted  bool
-    Iops       int64  // 100 to 20000 for io1
-    KmsKeyId   string // For encrypted volume
-    Size       int64  // In GB
-    SnapshotId string
-    VolumeType string // gp2, io1, st1, sc1 or standard
+    DryRun     bool
+    Resources  [ string ] // The IDs of one or more resources to tag. For example, ami-1a2b3c4d.
+    Tags       [ { Key:string, Value:string }... ]  // Key/value pairs of Tags
 ```
 
 Example:
@@ -293,11 +290,21 @@ $ ipport="127.0.0.1:443"
 $ guid=`curl -ks -d '{"Login":"nomen.nescio","Password":"password"}' \
   https://$ipport/api/login | grep -o "[a-z0-9][^\"]*"`
 
-# Create a 30GB gp2 volume in availability zone us-west-2a
+# Create a tag, TestTag, with value, TestValue
 
-$ curl -k -d '{"Size":30,"VolumeType":"gp2","Encrypted":false}' \
-  "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/create-volume?env_id=1&region=us-west-2&availability_zone=us-west-2a"
-
+$ curl -k -d '{ 
+    "DryRun":false,
+    "Resources":[
+        "i-0e1460e70ad81ec7c"
+    ],
+    "Tags":[
+        {
+            "Key":"testtagkey",
+            "Value":"testtagvalue"
+        }
+    ]
+  }' \
+  "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/create-tags?env_id=2&region=us-west-2"
 ```
 
 ### <a name="create-volume"></a>create-volume
