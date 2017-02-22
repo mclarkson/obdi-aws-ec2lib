@@ -80,6 +80,7 @@ required to use all REST api functions.</p>
 <a href="#copy-image">copy-image</a><br>
 <a href="#copy-snapshot">copy-snapshot</a><br>
 <a href="#create-image">create-image</a><br>
+<a href="#create-placement-group">create-placement-group</a><br>
 <a href="#create-snapshot">create-snapshot</a><br>
 <a href="#create-tags">create-tags</a><br>
 <a href="#create-volume">create-volume</a><br>
@@ -288,6 +289,36 @@ $ curl -k -d '{ "DryRun":false,
                 "Description":"Created by obdi-aws-p2ec2 for vol-cb5f1166",
                 "VolumeId":"vol-cb5f1166"}' \
   "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/create-snapshot?env_id=1&amp;region=us-east-1"
+</code></pre>
+
+<h3><a name="create-placement-group"></a>create-placement-group</h3>
+
+<p>CreatePlacementGroup API operation for Amazon Elastic Compute Cloud.</p>
+
+<p><a href="http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.CreatePlacementGroup">CreatePlacementGroup (go aws sdk)</a></p>
+
+<pre><code>Supported POST data JSON parameters:
+
+    DryRun      bool
+    GroupName   string  // A name for the placement group. Up to 255 ASCII characters
+    Strategy    string  // The placement strategy. 'cluster' only.
+</code></pre>
+
+<p>Example:</p>
+
+<pre><code># Log in
+
+$ ipport="127.0.0.1:443"
+
+$ guid=`curl -ks -d '{"Login":"nomen.nescio","Password":"password"}' \
+  https://$ipport/api/login | grep -o "[a-z0-9][^\"]*"`
+
+# Create a placement group
+
+$ curl -k -d '{ "DryRun":false,
+                "GroupName":"MyPlacementGroup1",
+                "Strategy":"cluster"}' \
+  "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/create-placement-group?env_id=1&amp;region=us-east-1"
 </code></pre>
 
 <h3><a name="create-tags"></a>create-tags</h3>
