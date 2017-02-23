@@ -44,6 +44,7 @@ required to use all REST api functions.
 [create-volume](#create-volume)<br>
 [delete-snapshot](#delete-snapshot)<br>
 [delete-volume](#delete-volume)<br>
+[deregister-image](#deregister-image)<br>
 [describe-availability-zone](#describe-availability-zone)<br>
 [describe-images](#describe-images)<br>
 [describe-instances](#describe-instances)<br>
