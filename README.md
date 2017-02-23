@@ -439,6 +439,38 @@ $ curl -k -d '{"DryRun":false,"VolumeId":"vol-c5e13a4d"}' \
 
 ```
 
+### <a name="deregister-image"></a>deregister-image
+
+Deregisters the specified AMI. After you deregister an AMI, it can't be used to launch new instances.
+
+This command does not delete the snapshot. 
+
+[DeregisterImage (go aws sdk)](http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.DeregisterImage)
+
+```
+Supported POST data JSON parameters:
+
+    DryRun     bool
+    ImageId    string
+```
+
+Example:
+
+```
+# Log in
+
+$ ipport="127.0.0.1:443"
+
+$ guid=`curl -ks -d '{"Login":"nomen.nescio","Password":"password"}' \
+  https://$ipport/api/login | grep -o "[a-z0-9][^\"]*"`
+
+# Delete AMI ami-c5e13a4d
+
+$ curl -k -d '{"DryRun":false,"ImageId":"ami-c5e13a4d"}' \
+  "https://$ipport/api/nomen.nescio/$guid/aws-ec2lib/deregister-image?env_id=2&region=us-west-2"
+
+```
+
 ### <a name="describe-availability-zone"></a>describe-availability-zone
 
 Get the status of an availability zone.
