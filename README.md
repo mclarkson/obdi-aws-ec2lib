@@ -25,12 +25,13 @@ NOTE: This plugin may take a long time to install since it now pre-compiles all 
 Each REST end-point uses authentication information saved in a per-environment
 json capability object. Clients do not send AWS credentials to REST end-points.
 Ensure that a json object named 'AWS_ACCESS_KEY_ID_1' is present for the
-environment, and that it contains at least:
+environment, and that it contains at least the two keys, aws_access_key_id and
+aws_secret_access_key, for example:
 ```
-{"aws_access_key_id":"AB...2Q","aws_secret_access_key":"wT...qdS"}
+{"aws_access_key_id":"ABASDFASDF2Q","aws_secret_access_key":"wTR8fyD8ryqdS"}
 ```
-When an environment has an AWS_ACCESS_KEY_ID_1 capability, that is all that is
-required to use all REST api functions.
+Only an AWS_ACCESS_KEY_ID_1 capability is required in an environment
+to use all the REST api functions listed below.
 
 ## REST End Points
 
@@ -233,7 +234,7 @@ $ curl -k -d '{
 
 ### <a name="create-snapshot"></a>create-snapshot
 
-Create a snapshot, in S3, of a volume.
+Create a snapshot of a volume in S3.
 
 [CreateSnapshot (go aws sdk)](http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.CreateSnapshot)
 
@@ -304,8 +305,6 @@ resources. Each resource can have a maximum of 50 tags. Each tag consists of a
 key and optional value. Tag keys must be unique per resource.
 
 [CreateTags (go aws sdk)](http://docs.aws.amazon.com/sdk-for-go/api/service/ec2/#EC2.CreateTags)
-
-IN PROGRESS ...
 
 ```
 Supported POST data JSON parameters:
