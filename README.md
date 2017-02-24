@@ -27,9 +27,11 @@ json capability object. Clients do not send AWS credentials to REST end-points.
 Ensure that a json object named 'AWS_ACCESS_KEY_ID_1' is present for the
 environment, and that it contains at least the two keys, aws_access_key_id and
 aws_secret_access_key, for example:
+
 ```
 {"aws_access_key_id":"ABASDFASDF2Q","aws_secret_access_key":"wTR8fyD8ryqdS"}
 ```
+
 Only an AWS_ACCESS_KEY_ID_1 capability is required in an environment
 to use all the REST api functions listed below.
 
