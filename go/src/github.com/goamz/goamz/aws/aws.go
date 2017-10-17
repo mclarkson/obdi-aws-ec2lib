@@ -65,11 +65,13 @@ type Region struct {
 
 var Regions = map[string]Region{
 	APNortheast.Name:  APNortheast,
+	APNortheast2.Name: APNortheast2,
 	APSoutheast.Name:  APSoutheast,
 	APSoutheast2.Name: APSoutheast2,
 	EUCentral.Name:    EUCentral,
 	EUWest.Name:       EUWest,
 	USEast.Name:       USEast,
+	USEast2.Name:      USEast2,
 	USWest.Name:       USWest,
 	USWest2.Name:      USWest2,
 	USGovWest.Name:    USGovWest,
@@ -327,7 +329,7 @@ func GetAuth(accessKey string, secretKey, token string, expiration time.Time) (a
 		auth.expiration = exptdate
 		return auth, err
 	}
-	err = errors.New("No valid AWS authentication found")
+	err = errors.New("No valid AWS authentication found: " + err.Error())
 	return auth, err
 }
 
